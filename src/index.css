@@ -1,3 +1,7 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
+
+@theme {
+  --color-bg-peach: #FFE5D4;
+  --color-text-color: #2F0601;
+  --color-base-pink: #EFC7C2;
+}
