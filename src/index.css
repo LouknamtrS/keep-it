@@ -1,7 +1,70 @@
 @import "tailwindcss";
 
 @theme {
-  --color-bg-peach: #FFE5D4;
-  --color-text-color: #2F0601;
-  --color-base-pink: #EFC7C2;
+    /* primary colors */
+    --color-primary-10: #E8EEFF;
+    --color-primary-20: #DBE5FE;
+    --color-primary-30: #C1D2FE;
+    --color-primary-40: #8FAEFC;
+    --color-primary-50: #648EF9;
+    --color-primary-60: #4375F4;
+    --color-primary-70: #2960EC;
+    --color-primary-80: #174FDF;
+    --color-primary-90: #0A41CC;
+    --color-primary-100: #0335B4;
+    /* secondary colors */
+    --color-secondary-10: #FFFCF5;
+    --color-secondary-20: #FFF5D6;
+    --color-secondary-30: #FFEDB8;
+    --color-secondary-40: #FFE69A;
+    --color-secondary-50: #E2CA83;
+    --color-secondary-60: #C5AF6E;
+    --color-secondary-70: #A8945A;
+    --color-secondary-80: #8A7A47;
+    --color-secondary-90: #6D5F36;
+    --color-secondary-100: #504625;
+    /* highlight colors */
+    --color-highlight-10: #FFFAED;
+    --color-highlight-20: #FFF0C5;
+    --color-highlight-30: #FFE69C;
+    --color-highlight-40: #FFDC74; 
+    --color-highlight-50: #FFD24C;
+    --color-highlight-60: #DDB338;
+    --color-highlight-70: #BB9626;
+    --color-highlight-80: #997918;
+    --color-highlight-90: #775C0D;
+    --color-highlight-100: #554105;
+    /* gray colors */
+    --color-gray-10: #F2F2F2;
+    --color-gray-20: #C4C4C4;
+    --color-gray-30: #969696;
+    --color-gray-40: #696969;
+    --color-gray-50: #242424;
+    /* info colors */
+    --color-info-10: #E5F2FF;
+    --color-info-20: #99CAFF;
+    --color-info-30: #4CA2FF;
+    --color-info-40: #007BFF;
+    --color-info-50: #005ABB;
+    /* success colors */
+    --color-success-10: #CEEFCE;
+    --color-success-20: #9DE09D;
+    --color-success-30: #3DC03C;
+    --color-success-40: #2D912E;
+    --color-success-50: #1E611E;
+    /* warning colors */
+    --color-warning-10: #FFEFE7;
+    --color-warning-20: #FFBFA1;
+    --color-warning-30: #FF8F5B;
+    --color-warning-40: #FF5F15;
+    --color-warning-50: #772600;
+    /* error colors */
+    --color-error-10: #FFECEC;
+    --color-error-20: #FF9898;
+    --color-error-30: #FF4444;
+    --color-error-40: #CC2727;
+    --color-error-50: #660505;
+    /* background colors */
+    --color-bg-white: #FFFFFF;
+
 }
