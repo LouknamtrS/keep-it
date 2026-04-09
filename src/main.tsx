@@ -9,7 +9,7 @@ import {
   Route,
 } from "react-router-dom";
  import RegisterPage from "./pages/Register";
-
+import "bootstrap-icons/font/bootstrap-icons.css";
 function App() {
 
   return (
