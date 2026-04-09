@@ -9,6 +9,7 @@ import {
   Route,
 } from "react-router-dom";
  import RegisterPage from "./pages/Register";
+ import LoginPage from "./pages/login";
 import "bootstrap-icons/font/bootstrap-icons.css";
 function App() {
 
@@ -16,6 +17,7 @@ function App() {
     <>
       <Routes>
         <Route path="/register" element={<RegisterPage />} />
+        <Route path="/login" element={<LoginPage />} />
       </Routes>
     </>
   );
