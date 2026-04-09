@@ -154,7 +154,6 @@ export default function RegisterPage() {
                           placeholder={field.placeHolder}
                           value={formData[field.id]}
                           onChange={handleChange}
-                          required
                           aria-invalid={!!errors[field.id]}
                           className="border border-gray-20 rounded-2xl py-2 pl-10 pr-10 w-full focus:outline-none focus:ring focus:ring-primary-40 focus:border-primary-40"
                         />
