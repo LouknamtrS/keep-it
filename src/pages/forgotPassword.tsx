@@ -8,69 +8,86 @@ type FormData = {
   confirmPassword: string;
 };
 
+type FormErrors = FormData;
+
 type FormField = keyof FormData;
 
 const initialForm: FormData = {
   password: "",
   confirmPassword: "",
 };
+const initialErrors: FormErrors = {
+  password: "",
+  confirmPassword: "",
+};
 
 export default function ResetPasswordPage() {
   const [formData, setFormData] = useState<FormData>(initialForm);
-  const [error, setError] = useState("");
+  const [errors, setErrors] = useState<FormErrors>(initialErrors);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target as {
-      name: FormField;
-      value: string;
+        name: FormField;
+        value: string;
     };
 
     setFormData(prev => ({ ...prev, [name]: value }));
-    if (error) setError("");
-  };
 
-  const validate = (): boolean => {
-    if (formData.password.length < 8) {
-      setError("รหัสผ่านต้องมีอย่างน้อย 8 ตัวอักษร");
-      return false;
-    }
-
-    if (formData.password !== formData.confirmPassword) {
-      setError("รหัสผ่านไม่ตรงกัน");
-      return false;
-    }
-
-    return true;
-  };
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!validate()) return;
-
-    try {
-      setIsSubmitting(true);
-
-      await new Promise(resolve => setTimeout(resolve, 1000));
-
-      await showSuccess(
-        "เปลี่ยนรหัสผ่านสำเร็จ",
-        "คุณสามารถเข้าสู่ระบบด้วยรหัสผ่านใหม่ได้แล้ว"
-      );
-
-      setFormData(initialForm);
-
-    } catch (err) {
-      await showError(
-        "เกิดข้อผิดพลาด",
-        "กรุณาลองใหม่อีกครั้ง"
-      );
-    } finally {
-      setIsSubmitting(false);
+    if (errors[name]) {
+        setErrors(prev => ({ ...prev, [name]: "" }));
     }
   };
+
+    const validate = (): FormErrors => {
+        const newErrors: FormErrors = { ...initialErrors };
+
+        if (!formData.password) {
+            newErrors.password = "กรุณากรอกรหัสผ่าน";
+        } else if (formData.password.length < 8) {
+            newErrors.password = "รหัสผ่านต้องมีอย่างน้อย 8 ตัวอักษร";
+        }
+
+        if (!formData.confirmPassword) {
+            newErrors.confirmPassword = "กรุณายืนยันรหัสผ่าน";
+        } else if (formData.password !== formData.confirmPassword) {
+            newErrors.confirmPassword = "รหัสผ่านไม่ตรงกัน";
+        }
+
+        return newErrors;
+    };
+
+    const handleSubmit = async (e: React.FormEvent) => {
+        e.preventDefault();
+
+        const validationErrors = validate();
+        const hasError = Object.values(validationErrors).some(Boolean);
+
+        setErrors(validationErrors);
+
+        if (hasError) return;
+
+        try {
+            setIsSubmitting(true);
+
+            await new Promise(resolve => setTimeout(resolve, 1000));
+
+            await showSuccess(
+            "เปลี่ยนรหัสผ่านสำเร็จ",
+            "คุณสามารถเข้าสู่ระบบด้วยรหัสผ่านใหม่ได้แล้ว"
+            );
+
+            setFormData(initialForm);
+            setErrors(initialErrors);
+
+        } catch {
+            await showError("เกิดข้อผิดพลาด", "กรุณาลองใหม่อีกครั้ง");
+        } finally {
+            setIsSubmitting(false);
+        }
+    };
 
   return (
     <main className="flex items-center justify-center md:bg-primary-20 w-screen min-h-screen">
@@ -103,7 +120,13 @@ export default function ResetPasswordPage() {
                   <i className={`bi ${showPassword ? "bi-eye-slash-fill" : "bi-eye-fill"}`} />
                 </button>
               </div>
+              {errors.password && (
+                <p className="text-error-40 text-sm mt-1 pl-4">
+                    {errors.password}
+                </p>
+            )}
             </div>
+        
             <div className="flex flex-col items-start gap-1">
               <label className="pl-4 text-primary-70 text-sm">
                 ยืนยันรหัสผ่าน
@@ -125,12 +148,13 @@ export default function ResetPasswordPage() {
                   <i className={`bi ${showConfirmPassword ? "bi-eye-slash-fill" : "bi-eye-fill"}`} />
                 </button>
               </div>
+              {errors.confirmPassword && (
+                <p className="text-error-40 text-sm mt-1 pl-4">
+                    {errors.confirmPassword}
+                </p>
+                )}
             </div>
-            {error && (
-              <p className="text-error-40 text-sm text-start mt-1 pl-4">
-                {error}
-              </p>
-            )}
+        
             <div className="pt-4">
                 <PrimaryButton>
                 {isSubmitting ? "กำลังบันทึก..." : "ยืนยันรหัสผ่าน"}
