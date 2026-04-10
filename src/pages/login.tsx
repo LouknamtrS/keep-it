@@ -158,7 +158,7 @@ export default function LoginPage() {
                     )}
                     {isPassword && (
                         <div className="w-full text-right pr-2">
-                        <a href="/forgot-password" className="text-sm text-primary-70 hover:underline">
+                        <a href="/forgot-password-email" className="text-sm text-primary-70 hover:underline">
                             ลืมรหัสผ่าน?
                         </a>
                         </div>

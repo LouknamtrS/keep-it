@@ -10,6 +10,8 @@ import {
 } from "react-router-dom";
  import RegisterPage from "./pages/Register";
  import LoginPage from "./pages/login";
+ import ForgotPassword from "./pages/forgotPassword";
+ import ForgotPasswordEmailPage from "./pages/forgotPasswordEmail";
 import "bootstrap-icons/font/bootstrap-icons.css";
 function App() {
 
@@ -18,6 +20,8 @@ function App() {
       <Routes>
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/login" element={<LoginPage />} />
+        <Route path="/forgot-password-email" element={<ForgotPasswordEmailPage />} />
+        <Route path="/forgot-password" element={<ForgotPassword />} />
       </Routes>
     </>
   );
