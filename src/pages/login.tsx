@@ -1,3 +1,4 @@
+import { authAPI } from '../api/authAPI';
 import logo from '../assets/keep_it_logo.png';
 import PrimaryButton from '../components/primaryButton';
 import { useState } from 'react';
@@ -70,10 +71,13 @@ export default function LoginPage() {
       setIsSubmitting(true);
 
       //console.log('Login success:', formData);
+      const response = await authAPI.login(formData);
+      alert(response.message || 'เข้าสู่ระบบสำเร็จ');
 
       setFormData(initialForm);
 
     } catch (error) {
+      alert((error as any).message || 'เกิดข้อผิดพลาดในการเข้าสู่ระบบ');
       console.error(error);
     } finally {
       setIsSubmitting(false);
