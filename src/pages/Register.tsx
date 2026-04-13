@@ -1,3 +1,4 @@
+import { authAPI } from '../api/authAPI';
 import logo from '../assets/keep_it_logo.png';
 import PrimaryButton from '../components/primaryButton';
 import { useState } from 'react';
@@ -89,6 +90,8 @@ export default function RegisterPage() {
       setIsSubmitting(true);
 
       //console.log('Register success:', formData);
+      const response = await authAPI.register(formData);
+      alert(response.message || 'Registration successful!');
 
       setFormData(initialForm);
 
