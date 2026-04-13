@@ -1,0 +1,31 @@
+
+function required(name: string): string {
+      const value = import.meta.env[name]
+      if (!value) {
+            throw new Error(`Missing env: ${name}`)
+      }
+      return value
+}
+
+const appConfig = {
+      baseUrl: required('VITE_BASE_URL'),
+      backendBaseUrl: required('VITE_BACKEND_BASE_URL'),
+      backendPort: {
+            auth: parseInt(required('VITE_BACKEND_AUTH_PORT')),
+      },
+      firebase: {
+            apiKey: required('VITE_FIREBASE_API_KEY'),
+            authDomain: required('VITE_FIREBASE_AUTH_DOMAIN'),
+            projectId: required('VITE_FIREBASE_PROJECT_ID'),
+            storageBucket: required('VITE_FIREBASE_STORAGE_BUCKET'),
+            messagingSenderId: required('VITE_FIREBASE_MESSAGING_SENDER_ID'),
+            appId: required('VITE_FIREBASE_APP_ID'),
+            measurementId: required('VITE_FIREBASE_MEASUREMENT_ID')
+      },
+      supabase: {
+            url: required('VITE_SUPABASE_URL'),
+            anonKey: required('VITE_SUPABASE_ANON_KEY')
+      }
+}
+
+export default appConfig
