@@ -2,6 +2,7 @@ import { useState } from "react";
 import logo from "../assets/keep_it_logo.png";
 import PrimaryButton from "../components/primaryButton";
 import { showSuccess, showError } from "../utils/alert";
+import { authAPI } from "../api/authAPI";
 
 type FormData = {
   email: string;
@@ -34,7 +35,9 @@ export default function ForgotPasswordEmailPage() {
 
     try {
       setIsSubmitting(true);
-      await new Promise((resolve) => setTimeout(resolve, 1000));
+      // await new Promise((resolve) => setTimeout(resolve, 1000));
+      const response = await authAPI.forgotPassword?.(formData.email);
+      console.log("Forgot password response:", response);
       
       await showSuccess(
         "ส่งอีเมลสำเร็จ",

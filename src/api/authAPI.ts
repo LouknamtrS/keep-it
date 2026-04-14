@@ -1,7 +1,7 @@
 import axios from "axios";
 import appConfig from "../config/config";
 import { firebaseClientAuth } from "../config/firebaseClientConfig";
-import { createUserWithEmailAndPassword, deleteUser, signInWithEmailAndPassword, signOut } from "firebase/auth";
+import { createUserWithEmailAndPassword, verifyPasswordResetCode, signInWithEmailAndPassword, signOut, sendPasswordResetEmail, confirmPasswordReset } from "firebase/auth";
 
 interface AuthModel {
       email: string;
@@ -27,6 +27,8 @@ export interface AuthAPI {
       register: (data: AuthRequest) => Promise<AuthResponse>;
       login: (data: { email: string; password: string }) => Promise<AuthResponse>;
       logout: () => Promise<void>;
+      forgotPassword: (email: string) => Promise<void>;
+      resetPassword: (newPassword: string) => Promise<AuthResponse>;
 }
 
 export const authAPI: AuthAPI = {
@@ -122,6 +124,29 @@ export const authAPI: AuthAPI = {
                   return logoutResponse.data;
             } catch (error) {
                   console.error('Error occurred while logging out:', (error as any).message);
+                  throw error;
+            }
+      },
+      async forgotPassword(email: string) {
+            try {
+                  const resetpasswordResponse = await sendPasswordResetEmail(firebaseClientAuth, email);
+            } catch (error) {
+                  console.error('Error occurred while requesting password reset:', (error as any).message);
+                  throw error;
+            }
+      },
+      async resetPassword(newPassword: string) {
+            try {
+                  const urlParams = new URLSearchParams(window.location.search);
+                  const oobCode = urlParams.get('oobCode') ?? '';
+                  const email = await verifyPasswordResetCode(firebaseClientAuth, oobCode);
+                  if (!email) {
+                        throw new Error('Invalid or expired password reset code');
+                  }
+                  const resetPasswordResponse = await confirmPasswordReset(firebaseClientAuth, oobCode, newPassword);
+                  return { ok: true, message: 'Password reset successfully' };
+            } catch (error) {
+                  console.error('Error occurred while resetting password:', (error as any).message);
                   throw error;
             }
       }

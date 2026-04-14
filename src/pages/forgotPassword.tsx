@@ -2,6 +2,7 @@ import { useState } from "react";
 import logo from "../assets/keep_it_logo.png";
 import PrimaryButton from "../components/primaryButton";
 import { showSuccess, showError } from "../utils/alert";
+import { authAPI } from "../api/authAPI";
 
 type FormData = {
   password: string;
@@ -73,6 +74,8 @@ export default function ResetPasswordPage() {
             setIsSubmitting(true);
 
             await new Promise(resolve => setTimeout(resolve, 1000));
+            
+            const response = await authAPI.resetPassword(formData.confirmPassword);
 
             await showSuccess(
             "เปลี่ยนรหัสผ่านสำเร็จ",
