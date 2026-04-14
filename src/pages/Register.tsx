@@ -96,6 +96,7 @@ export default function RegisterPage() {
       setFormData(initialForm);
 
     } catch (error) {
+      alert(error instanceof Error ? error.message : 'An error occurred during registration');
       console.error(error);
     } finally {
       setIsSubmitting(false);

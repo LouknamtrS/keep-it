@@ -1,7 +1,7 @@
 import axios from "axios";
 import appConfig from "../config/config";
 import { firebaseClientAuth } from "../config/firebaseClientConfig";
-import { createUserWithEmailAndPassword, verifyPasswordResetCode, signInWithEmailAndPassword, signOut, sendPasswordResetEmail, confirmPasswordReset } from "firebase/auth";
+import { createUserWithEmailAndPassword, verifyPasswordResetCode, signInWithEmailAndPassword, signOut, sendPasswordResetEmail, confirmPasswordReset, deleteUser } from "firebase/auth";
 
 interface AuthModel {
       email: string;
@@ -61,15 +61,14 @@ export const authAPI: AuthAPI = {
                   )
 
                   if (!createUserResponse.data.ok || createUserResponse.status !== 201) {
-                        const errorData = await createUserResponse.data.json()
-                        throw new Error(errorData.message || 'Registration failed')
+                        throw new Error(createUserResponse.data.message || 'Registration failed')
                   }
                   return createUserResponse.data;                  
             } catch (error) {
-                  // const firebaseUser = firebaseClientAuth.currentUser;
-                  // if (firebaseUser) {
-                  //       await deleteUser(firebaseUser);
-                  // }
+                  const firebaseUser = firebaseClientAuth.currentUser;
+                  if (firebaseUser) {
+                        await deleteUser(firebaseUser);
+                  }
                   throw error;
             }
       },
