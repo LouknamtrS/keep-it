@@ -1,7 +1,7 @@
 import axios from "axios";
 import appConfig from "../config/config";
 import { firebaseClientAuth } from "../config/firebaseClientConfig";
-import { createUserWithEmailAndPassword, deleteUser, signInWithEmailAndPassword } from "firebase/auth";
+import { createUserWithEmailAndPassword, deleteUser, signInWithEmailAndPassword, signOut } from "firebase/auth";
 
 interface AuthModel {
       email: string;
@@ -26,6 +26,7 @@ interface AuthResponse {
 export interface AuthAPI {
       register: (data: AuthRequest) => Promise<AuthResponse>;
       login: (data: { email: string; password: string }) => Promise<AuthResponse>;
+      logout: () => Promise<void>;
 }
 
 export const authAPI: AuthAPI = {
@@ -105,6 +106,22 @@ export const authAPI: AuthAPI = {
                   } else {
                         console.log('เกิดข้อผิดพลาดอื่น ๆ:', (error as any).message);
                   }
+                  throw error;
+            }
+      },
+      async logout() {
+            try {
+                  await signOut(firebaseClientAuth);
+                  const logoutResponse = await axios.post(
+                        `${appConfig.backendBaseUrl}:${appConfig.backendPort.auth}/auth/logout`,
+                        {},
+                        {
+                              withCredentials: true
+                        }
+                  );
+                  return logoutResponse.data;
+            } catch (error) {
+                  console.error('Error occurred while logging out:', (error as any).message);
                   throw error;
             }
       }
