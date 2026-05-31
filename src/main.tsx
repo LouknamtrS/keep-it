@@ -14,6 +14,9 @@ import {
  import ForgotPasswordEmailPage from "./pages/forgotPasswordEmail";
  import Setting from "./pages/setting";
  import Account from "./pages/account";
+ import Security from "./pages/security";
+ import ChangePassword from "./pages/changePassword";
+ import DeleteAccount from "./pages/deleteAccount";
 import "bootstrap-icons/font/bootstrap-icons.css";
 function App() {
 
@@ -26,6 +29,9 @@ function App() {
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/setting" element={<Setting />} />
         <Route path="/account" element={<Account />} />
+        <Route path="/security" element={<Security />} />
+        <Route path="/change-password" element={<ChangePassword />} />
+        <Route path="/delete-account" element={<DeleteAccount />} />
       </Routes>
     </>
   );

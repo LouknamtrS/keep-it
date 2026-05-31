@@ -16,3 +16,17 @@ export const showError = (title: string, text?: string) =>
     text,
     confirmButtonColor: "#2960EC",
   });
+
+
+export const showConfirmDelete = () => {
+    return Swal.fire({
+        title: "ยืนยันการลบบัญชี",
+        text: "บัญชีของคุณจะถูกลบอย่างถาวรและไม่สามารถกู้คืนได้",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonText: "ลบบัญชี",
+        cancelButtonText: "ยกเลิก",
+        reverseButtons: true,
+        confirmButtonColor: "#dc2626",
+    });
+};
