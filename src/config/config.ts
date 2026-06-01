@@ -22,10 +22,6 @@ const appConfig = {
             appId: required('VITE_FIREBASE_APP_ID'),
             measurementId: required('VITE_FIREBASE_MEASUREMENT_ID')
       },
-      supabase: {
-            url: required('VITE_SUPABASE_URL'),
-            anonKey: required('VITE_SUPABASE_ANON_KEY')
-      }
 }
 
 export default appConfig
