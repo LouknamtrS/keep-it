@@ -17,6 +17,7 @@ import {
  import Security from "./pages/security";
  import ChangePassword from "./pages/changePassword";
  import DeleteAccount from "./pages/deleteAccount";
+ import Analytics from "./pages/analytics";
 import "bootstrap-icons/font/bootstrap-icons.css";
 function App() {
 
@@ -32,6 +33,7 @@ function App() {
         <Route path="/security" element={<Security />} />
         <Route path="/change-password" element={<ChangePassword />} />
         <Route path="/delete-account" element={<DeleteAccount />} />
+        <Route path="/analytics" element={<Analytics />} />
       </Routes>
     </>
   );
