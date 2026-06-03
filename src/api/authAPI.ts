@@ -80,6 +80,7 @@ export const authAPI: AuthAPI = {
                         data.email,
                         data.password
                   );
+                  
                   const loginResponse = await axios.post(
                         `${appConfig.backendBaseUrl}:${appConfig.backendPort.auth}/auth/login`,
                         {},

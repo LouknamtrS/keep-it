@@ -5,6 +5,7 @@ import PrimaryButton from "../primaryButton";
 import CategoryForm from "../category/categoryForm";
 import RecordForm from "./recordForm";
 import { validateRecord } from "../../utils/validateRecord";
+import { recordAPI } from "../../api/recordAPI";
 
 type Props = {
     categories: Category[];
@@ -69,31 +70,50 @@ export default function AddRecordModal({
     }
     const recordDateTime = `${formData.date}T${formData.time}:00`;
 
-    const handleSubmit = (
+    const handleSubmit = async (
         e: React.FormEvent
     ) => {
         e.preventDefault();
 
-        const validationErrors = validateRecord(formData);
+        const validationErrors =
+            validateRecord(formData);
 
         setErrors(validationErrors);
 
-        const hasError = Object.values(
-            validationErrors
-        ).some(Boolean);
+        const hasError =
+            Object.values(validationErrors)
+                .some(Boolean);
 
         if (hasError) return;
 
-        const newRecord: Record = {
-            id: crypto.randomUUID(),
-            type: formData.type,
-            amount: Number(formData.amount),
-            description: formData.description,
-            datetime: recordDateTime,
-            category: formData.category!,
-        };
+        try {
+            if (formData.type === "income") {
+                await recordAPI.createIncome({
+                    categoryId:
+                        formData.category!.id,
+                    amount:
+                        Number(formData.amount),
+                    date: recordDateTime,
+                    note:
+                        formData.description,
+                });
+            } else {
+                await recordAPI.createExpense({
+                    categoryId:
+                        formData.category!.id,
+                    amount:
+                        Number(formData.amount),
+                    date: recordDateTime,
+                    note:
+                        formData.description,
+                });
+            }
 
-        handleClose();
+            handleClose();
+        } catch (error) {
+            console.error(error);
+            alert("ไม่สามารถบันทึกรายการได้");
+        }
     };
 
     const resetForm = () => {

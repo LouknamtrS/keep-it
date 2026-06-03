@@ -12,6 +12,7 @@ const appConfig = {
       backendBaseUrl: required('VITE_BACKEND_BASE_URL'),
       backendPort: {
             auth: parseInt(required('VITE_BACKEND_AUTH_PORT')),
+            incomeExpense: parseInt(required('VITE_BACKEND_INEX_PORT')),
       },
       firebase: {
             apiKey: required('VITE_FIREBASE_API_KEY'),
