@@ -50,7 +50,7 @@ export default function RecordCalendar({
         useMemo(() => {
             const map = new Map();
             records.forEach((record) => {
-                const recordDate = new Date(record.datetime);
+                const recordDate = new Date(record.date);
                 const date =`${recordDate.getFullYear()}-${String(recordDate.getMonth() + 1).padStart(2, "0")}-${String(recordDate.getDate()).padStart(2, "0")}`;
                 const current = map.get(date) || {income: 0, expense: 0,};
                 if (record.type === "income") {
@@ -92,7 +92,7 @@ export default function RecordCalendar({
 
     const years = useMemo(() => {
         const uniqueYears = new Set<number>();
-        records.forEach((record) => {uniqueYears.add(new Date(record.datetime).getFullYear());});
+        records.forEach((record) => {uniqueYears.add(new Date(record.date).getFullYear());});
         if (uniqueYears.size === 0) {uniqueYears.add(new Date().getFullYear());}
         return Array.from(uniqueYears).sort((a, b) => a - b);
     }, [records]);

@@ -17,7 +17,7 @@ export default function DailyRecordPanel({
 
     const dayRecords = useMemo(() => {
         return records.filter((record) => {
-            const recordDate = record.datetime.split("T")[0];
+            const recordDate = record.date;
             const matchDate = recordDate === dateKey;
             const matchType = typeFilter === "ทั้งหมด"
                     ? true

@@ -5,17 +5,21 @@ import { mockRecords } from "../mocks/records";
 import RecordCalendar from "../components/calendar/recordCalendar";
 import DailyRecordPanel from "../components/rocords/dailyRecordPanel";
 import TopCategory from "../components/rocords/topCategory";
+import { useEffect } from "react"
+import { recordAPI } from "../api/recordAPI"
+import type { Record } from "../types/records"
 
 export default function Home() {
     const [currentDate, setCurrentDate] = useState(new Date());
     const [selectedDate, setSelectedDate] = useState(new Date());
+    const [records, setRecords] = useState<Record[]>([])
     const year = currentDate.getFullYear();
     const month = currentDate.getMonth();
     const monthlyRecords =
         useMemo(() => {
             return mockRecords.filter(
                 (record) => {
-                    const recordDate = new Date(record.datetime);
+                    const recordDate = new Date(record.date);
                     return (recordDate.getFullYear() === year && recordDate.getMonth() === month);
                 }
             );
@@ -54,6 +58,19 @@ export default function Home() {
         return Array.from(categoryMap.values()).sort((a, b) => b.total - a.total);
     }, [monthlyRecords]);
 
+    useEffect(() => {
+        const fetchRecords = async () => {
+            try {
+                const res = await recordAPI.getAll()
+                setRecords(res.data.data)
+            } catch (err) {
+                console.error("failed to load records", err)
+            }
+        }
+
+        fetchRecords()
+    }, [])
+
     return (
         <>
             <Navbar />
@@ -72,7 +89,7 @@ export default function Home() {
                         />
                     </div>
                     <RecordCalendar
-                        records={mockRecords}
+                        records={records}
                         currentDate={currentDate}
                         onDateChange={setCurrentDate}
                         selectedDate={selectedDate}

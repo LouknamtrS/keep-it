@@ -6,7 +6,7 @@ export const mockRecords: Record[] = [
         id: "1",
         type: "income",
         amount: 25000,
-        datetime: "2026-01-01T09:00:00",
+        date: "2026-01-01T09:00:00",
         description: "เงินเดือน",
         category: {
             id: 1,
@@ -19,7 +19,7 @@ export const mockRecords: Record[] = [
         id: "2",
         type: "expense",
         amount: 250,
-        datetime: "2026-01-01T12:30:00",
+        date: "2026-01-01T12:30:00",
         description: "อาหารกลางวัน",
         category: {
             id: 2,
@@ -32,7 +32,7 @@ export const mockRecords: Record[] = [
         id: "3",
         type: "expense",
         amount: 1500,
-        datetime: "2026-01-01T20:00:00",
+        date: "2026-01-01T20:00:00",
         description: "ซื้อของเข้าบ้าน",
         category: {
             id: 3,
@@ -45,7 +45,7 @@ export const mockRecords: Record[] = [
         id: "4",
         type: "expense",
         amount: 120,
-        datetime: "2026-01-03T08:00:00",
+        date: "2026-01-03T08:00:00",
         description: "กาแฟ",
         category: {
             id: 2,
@@ -58,7 +58,7 @@ export const mockRecords: Record[] = [
         id: "5",
         type: "income",
         amount: 3500,
-        datetime: "2026-01-08T19:00:00",
+        date: "2026-01-08T19:00:00",
         description: "ฟรีแลนซ์",
         category: {
             id: 4,
@@ -73,7 +73,7 @@ export const mockRecords: Record[] = [
         id: "6",
         type: "income",
         amount: 25000,
-        datetime: "2026-02-01T09:00:00",
+        date: "2026-02-01T09:00:00",
         description: "เงินเดือน",
         category: {
             id: 1,
@@ -86,7 +86,7 @@ export const mockRecords: Record[] = [
         id: "7",
         type: "expense",
         amount: 4500,
-        datetime: "2026-02-01T18:00:00",
+        date: "2026-02-01T18:00:00",
         description: "ค่าเช่าห้อง",
         category: {
             id: 5,
@@ -99,7 +99,7 @@ export const mockRecords: Record[] = [
         id: "8",
         type: "expense",
         amount: 300,
-        datetime: "2026-02-01T20:00:00",
+        date: "2026-02-01T20:00:00",
         description: "อาหารเย็น",
         category: {
             id: 2,
@@ -112,7 +112,7 @@ export const mockRecords: Record[] = [
         id: "9",
         type: "expense",
         amount: 1200,
-        datetime: "2026-02-14T14:00:00",
+        date: "2026-02-14T14:00:00",
         description: "ของขวัญ",
         category: {
             id: 3,
@@ -125,7 +125,7 @@ export const mockRecords: Record[] = [
         id: "10",
         type: "income",
         amount: 5000,
-        datetime: "2026-02-20T21:00:00",
+        date: "2026-02-20T21:00:00",
         description: "โบนัสโปรเจกต์",
         category: {
             id: 4,
@@ -140,7 +140,7 @@ export const mockRecords: Record[] = [
         id: "11",
         type: "income",
         amount: 25000,
-        datetime: "2026-03-01T09:00:00",
+        date: "2026-03-01T09:00:00",
         description: "เงินเดือน",
         category: {
             id: 1,
@@ -153,7 +153,7 @@ export const mockRecords: Record[] = [
         id: "12",
         type: "expense",
         amount: 700,
-        datetime: "2026-03-05T12:00:00",
+        date: "2026-03-05T12:00:00",
         description: "อาหาร",
         category: {
             id: 2,
@@ -166,7 +166,7 @@ export const mockRecords: Record[] = [
         id: "13",
         type: "expense",
         amount: 2500,
-        datetime: "2026-03-05T16:00:00",
+        date: "2026-03-05T16:00:00",
         description: "เสื้อผ้า",
         category: {
             id: 3,
@@ -179,7 +179,7 @@ export const mockRecords: Record[] = [
         id: "14",
         type: "income",
         amount: 8000,
-        datetime: "2026-03-18T20:00:00",
+        date: "2026-03-18T20:00:00",
         description: "งานเสริม",
         category: {
             id: 4,
@@ -194,7 +194,7 @@ export const mockRecords: Record[] = [
         id: "15",
         type: "expense",
         amount: 450,
-        datetime: "2026-04-02T08:00:00",
+        date: "2026-04-02T08:00:00",
         description: "กาแฟ",
         category: {
             id: 2,
@@ -207,7 +207,7 @@ export const mockRecords: Record[] = [
         id: "16",
         type: "expense",
         amount: 800,
-        datetime: "2026-04-02T13:00:00",
+        date: "2026-04-02T13:00:00",
         description: "อาหารกลางวัน",
         category: {
             id: 2,
@@ -220,7 +220,7 @@ export const mockRecords: Record[] = [
         id: "17",
         type: "expense",
         amount: 3500,
-        datetime: "2026-04-02T19:00:00",
+        date: "2026-04-02T19:00:00",
         description: "ซื้อรองเท้า",
         category: {
             id: 3,
@@ -233,7 +233,7 @@ export const mockRecords: Record[] = [
         id: "18",
         type: "income",
         amount: 25000,
-        datetime: "2026-04-30T09:00:00",
+        date: "2026-04-30T09:00:00",
         description: "เงินเดือน",
         category: {
             id: 1,
@@ -248,7 +248,7 @@ export const mockRecords: Record[] = [
         id: "19",
         type: "income",
         amount: 25000,
-        datetime: "2026-05-01T09:00:00",
+        date: "2026-05-01T09:00:00",
         description: "เงินเดือน",
         category: {
             id: 1,
@@ -261,7 +261,7 @@ export const mockRecords: Record[] = [
         id: "20",
         type: "expense",
         amount: 6000,
-        datetime: "2026-05-15T10:00:00",
+        date: "2026-05-15T10:00:00",
         description: "ค่าซ่อมรถ",
         category: {
             id: 6,
@@ -274,7 +274,7 @@ export const mockRecords: Record[] = [
         id: "21",
         type: "expense",
         amount: 250,
-        datetime: "2026-05-15T13:00:00",
+        date: "2026-05-15T13:00:00",
         description: "อาหาร",
         category: {
             id: 2,
@@ -287,7 +287,7 @@ export const mockRecords: Record[] = [
         id: "22",
         type: "income",
         amount: 2000,
-        datetime: "2026-05-15T21:00:00",
+        date: "2026-05-15T21:00:00",
         description: "ขายของออนไลน์",
         category: {
             id: 7,
@@ -302,7 +302,7 @@ export const mockRecords: Record[] = [
         id: "23",
         type: "income",
         amount: 25000,
-        datetime: "2026-06-01T09:00:00",
+        date: "2026-06-01T09:00:00",
         description: "เงินเดือน",
         category: {
             id: 1,
@@ -315,7 +315,7 @@ export const mockRecords: Record[] = [
         id: "24",
         type: "expense",
         amount: 1200,
-        datetime: "2026-06-03T14:00:00",
+        date: "2026-06-03T14:00:00",
         description: "ซื้อของใช้",
         category: {
             id: 3,
@@ -328,7 +328,7 @@ export const mockRecords: Record[] = [
         id: "25",
         type: "expense",
         amount: 500,
-        datetime: "2026-06-03T18:30:00",
+        date: "2026-06-03T18:30:00",
         description: "อาหารเย็น",
         category: {
             id: 2,
@@ -341,7 +341,7 @@ export const mockRecords: Record[] = [
         id: "26",
         type: "income",
         amount: 3000,
-        datetime: "2026-06-03T22:00:00",
+        date: "2026-06-03T22:00:00",
         description: "ฟรีแลนซ์",
         category: {
             id: 4,
@@ -354,7 +354,7 @@ export const mockRecords: Record[] = [
         id: "27",
         type: "expense",
         amount: 700,
-        datetime: "2026-06-05T09:00:00",
+        date: "2026-06-05T09:00:00",
         description: "กาแฟและขนม",
         category: {
             id: 2,

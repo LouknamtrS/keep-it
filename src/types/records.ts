@@ -5,7 +5,6 @@ export type RecordFormData = {
     amount: string;
     description: string;
     date: string;
-    time: string;
     category: Category | null;
 };
 
@@ -16,10 +15,10 @@ export type RecordErrors = {
 };
 
 export type Record = {
+    date: string | number | Date;
     id: string;
     type: "income" | "expense";
     amount: number;
     description: string;
-    datetime: string;
     category: Category;
 };

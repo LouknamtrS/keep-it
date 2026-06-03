@@ -42,12 +42,7 @@ export default function AddRecordModal({
         type: "income" as const,
         amount: "",
         description: "",
-        date: new Date()
-            .toISOString()
-            .split("T")[0],
-        time: new Date()
-            .toTimeString()
-            .slice(0, 5),
+        date: new Date().toISOString().split("T")[0],
         category: null as Category | null,
     });
     const [formData, setFormData] =
@@ -83,7 +78,7 @@ export default function AddRecordModal({
             </div>
         );
     }
-    const recordDateTime = `${formData.date}T${formData.time}:00`;
+    const recordDate = formData.date
 
     const handleSubmit = async (
         e: React.FormEvent
@@ -108,7 +103,7 @@ export default function AddRecordModal({
                         formData.category!.id,
                     amount:
                         Number(formData.amount),
-                    date: recordDateTime,
+                    date: recordDate,
                     note:
                         formData.description,
                 });
@@ -118,7 +113,7 @@ export default function AddRecordModal({
                         formData.category!.id,
                     amount:
                         Number(formData.amount),
-                    date: recordDateTime,
+                    date: recordDate,
                     note:
                         formData.description,
                 });

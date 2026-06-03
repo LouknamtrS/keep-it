@@ -32,4 +32,12 @@ export const recordAPI = {
             }
         );
     },
+    async getAll() {
+        return axios.get(
+            `${appConfig.backendBaseUrl}:${appConfig.backendPort.incomeExpense}/all`,
+            {
+                withCredentials: true,
+            }
+        );
+    }
 };

@@ -44,17 +44,10 @@ export default function RecordForm({
             {/* Date & Time */}
             <RecordDateTime
                 date={formData.date}
-                time={formData.time}
                 onDateChange={(date) =>
                     onChange({
                         ...formData,
                         date,
-                    })
-                }
-                onTimeChange={(time) =>
-                    onChange({
-                        ...formData,
-                        time,
                     })
                 }
             />
