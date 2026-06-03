@@ -1,7 +1,7 @@
 import { useState } from "react";
 import PrimaryButton from "../primaryButton";
 import EmojiPicker from "emoji-picker-react";
-import type { Category } from "../../type/category";
+import type { Category } from "../../types/category";
 
 type Props = {
     onBack: () => void;

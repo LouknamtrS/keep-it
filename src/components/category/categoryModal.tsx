@@ -1,7 +1,7 @@
 import { useState } from "react";
 import CategoryList from "./categoryList";
 import CategoryForm from "./categoryForm";
-import type { Category } from "../../type/category";
+import type { Category } from "../../types/category";
 
 type Props = {
     isOpen: boolean;

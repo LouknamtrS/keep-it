@@ -1,6 +1,6 @@
 import { useState } from "react";
 import PrimaryButton from "../primaryButton";
-import type { Category } from "../../type/category";
+import type { Category } from "../../types/category";
 
 type Props = {
     categories: Category[];
