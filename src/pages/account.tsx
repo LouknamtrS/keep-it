@@ -1,17 +1,17 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import Navbar from "../components/navbar";
-import mock_profile from "../assets/mock_profile.png";
+import mock_profile from "../assets/profile.jpeg";
 import { useNavigate } from "react-router-dom";
 import { showSuccess, showError } from "../utils/alert";
+import { userAPI } from "../api/userAPI";
 
 export default function Account() {
     const navigate = useNavigate();
     const fileInputRef = useRef<HTMLInputElement>(null);
-
     const [profile, setProfile] = useState({
-        username: "lalune",
-        email: "lalune@example.com",
-        profileImage: mock_profile
+        username: "",
+        email: "",
+        profileImage: mock_profile,
     });
 
     const [username, setUsername] = useState(profile.username);
@@ -38,38 +38,27 @@ export default function Account() {
         e.preventDefault();
 
         if (!username.trim()) {
-            showError(
-                "ข้อมูลไม่ถูกต้อง",
-                "กรุณากรอกชื่อผู้ใช้"
-            );
-            return;
-        }
-        if (!username.trim()) {
-            showError(
-                "ข้อมูลไม่ถูกต้อง",
-                "กรุณากรอกชื่อผู้ใช้"
-            );
+            showError("ข้อมูลไม่ถูกต้อง", "กรุณากรอกชื่อผู้ใช้");
             return;
         }
 
         setIsLoading(true);
 
         try {
-            /*
-            *
-            * const formData = new FormData();
-            * formData.append("username", username);
-            *
-            * if (selectedImage) {
-            *     formData.append("profileImage", selectedImage);
-            * }
-            *
-            * const response = await updateProfile(formData);
-            */
+            const formData = new FormData();
+
+            formData.append("username", username);
+
+            if (selectedImage) {
+                formData.append("profilePic", selectedImage);
+            }
+
+            const res = await userAPI.updateProfile(formData);
 
             setProfile(prev => ({
                 ...prev,
-                username
+                username: res.data.data.username,
+                profileImage: res.data.data.profilePic || prev.profileImage
             }));
 
             setSelectedImage(null);
@@ -78,15 +67,36 @@ export default function Account() {
                 "แก้ไขข้อมูลสำเร็จ",
                 "ข้อมูลของคุณได้รับการอัปเดตแล้ว"
             );
+
         } catch (error) {
-            showError(
-                "แก้ไขข้อมูลไม่สำเร็จ",
-                "ไม่สามารถบันทึกข้อมูลได้"
-            );
+            showError("แก้ไขข้อมูลไม่สำเร็จ", "ไม่สามารถบันทึกข้อมูลได้");
         } finally {
             setIsLoading(false);
         }
     };
+
+    useEffect(() => {
+        const fetchProfile = async () => {
+            try {
+                const res = await userAPI.getProfile();
+
+                const user = res.data.data;
+
+                setProfile({
+                    username: user.username,
+                    email: user.email,
+                    profileImage:
+                        user.profilePic || mock_profile,
+                });
+
+                setUsername(user.username);
+            } catch (err) {
+                console.error("Failed to load profile", err);
+            }
+        };
+
+        fetchProfile();
+    }, []);
 
     return (
         <>

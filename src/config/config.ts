@@ -14,6 +14,7 @@ const appConfig = {
             auth: parseInt(required('VITE_BACKEND_AUTH_PORT')),
             incomeExpense: parseInt(required('VITE_BACKEND_INEX_PORT')),
             category: parseInt(required('VITE_BACKEND_CATEGORY_PORT')),
+            user: parseInt(required('VITE_BACKEND_USER_PORT')),
       },
       firebase: {
             apiKey: required('VITE_FIREBASE_API_KEY'),
