@@ -134,7 +134,6 @@ export default function RecordCalendar({
                 </div>
 
                 <AddRecordModal
-                    categories={categories}
                     isOpen={isAddRecordOpen}
                     onClose={() =>
                         setIsAddRecordOpen(false)

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import type { Category } from "../../types/category";
 import type {RecordFormData,RecordErrors, Record} from "../../types/records";
 import PrimaryButton from "../primaryButton";
@@ -6,22 +6,37 @@ import CategoryForm from "../category/categoryForm";
 import RecordForm from "./recordForm";
 import { validateRecord } from "../../utils/validateRecord";
 import { recordAPI } from "../../api/recordAPI";
+import { categoryAPI } from "../../api/categoryAPI"
 
 type Props = {
-    categories: Category[];
     isOpen: boolean;
     onClose: () => void;
     onAddCategory: (category: Category) => void;
 };
 
 export default function AddRecordModal({
-    categories,
     isOpen,
     onClose,
     onAddCategory,
 }: Props) {
    
     const [view, setView] = useState<"record" | "category">("record");
+    const [categories, setCategories] = useState<Category[]>([])
+
+    useEffect(() => {
+        const fetchCategories = async () => {
+            try {
+                const res = await categoryAPI.getAll()
+                setCategories(res.data.data)
+            } catch (err) {
+                console.error("failed to load categories", err)
+            }
+        }
+
+        if (isOpen) {
+            fetchCategories()
+        }
+    }, [isOpen])
 
     const createInitialFormData = () => ({
         type: "income" as const,

@@ -2,6 +2,8 @@ import { useState } from "react";
 import CategoryList from "./categoryList";
 import CategoryForm from "./categoryForm";
 import type { Category } from "../../types/category";
+import { useEffect } from "react"
+import { categoryAPI } from "../../api/categoryAPI"
 
 type Props = {
     isOpen: boolean;
@@ -15,27 +17,21 @@ export default function CategoryModal({
 
     const [currentView, setCurrentView] = useState<"list" | "create">("list");
 
-    //mock up data
-    const [categories, setCategories] = useState<Category[]>([
-        {
-            id: 1,
-            name: "เงินเดือน",
-            type: "income",
-            icon: "💰",
-        },
-        {
-            id: 2,
-            name: "โบนัส",
-            type: "income",
-            icon: "🎁",
-        },
-        {
-            id: 3,
-            name: "อาหาร",
-            type: "expense",
-            icon: "🍜",
-        },
-    ]);
+    const [categories, setCategories] = useState<Category[]>([])
+        useEffect(() => {
+        const fetchCategories = async () => {
+            try {
+                const res = await categoryAPI.getAll()
+                setCategories(res.data.data)
+            } catch (err) {
+                console.error("failed to load categories", err)
+            }
+        }
+
+        if (isOpen) {
+            fetchCategories()
+        }
+    }, [isOpen])
 
     if (!isOpen) return null;
 

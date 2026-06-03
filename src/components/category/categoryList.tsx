@@ -60,7 +60,7 @@ export default function CategoryList({
                         className="flex flex-col items-center gap-2"
                     >
                         <div className={`w-16 h-16 rounded-full ${category.type === "income" ? "bg-success-10 text-success-50" : "bg-error-20 text-error-50"} flex items-center justify-center text-4xl`}>
-                           {category.icon}
+                           {category.iconName}
                         </div>
 
                         <span className="text-sm text-center text-wrap w-20 line-clamp-2 text-ellipsis">

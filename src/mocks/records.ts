@@ -12,7 +12,7 @@ export const mockRecords: Record[] = [
             id: 1,
             name: "เงินเดือน",
             type: "income",
-            icon: "💰",
+            iconName: "💰",
         },
     },
     {
@@ -25,7 +25,7 @@ export const mockRecords: Record[] = [
             id: 2,
             name: "อาหาร",
             type: "expense",
-            icon: "🍜",
+            iconName: "🍜",
         },
     },
     {
@@ -38,7 +38,7 @@ export const mockRecords: Record[] = [
             id: 3,
             name: "ช้อปปิ้ง",
             type: "expense",
-            icon: "🛒",
+            iconName: "🛒",
         },
     },
     {
@@ -51,7 +51,7 @@ export const mockRecords: Record[] = [
             id: 2,
             name: "อาหาร",
             type: "expense",
-            icon: "☕",
+            iconName: "☕",
         },
     },
     {
@@ -64,7 +64,7 @@ export const mockRecords: Record[] = [
             id: 4,
             name: "งานพิเศษ",
             type: "income",
-            icon: "💻",
+            iconName: "💻",
         },
     },
 
@@ -79,7 +79,7 @@ export const mockRecords: Record[] = [
             id: 1,
             name: "เงินเดือน",
             type: "income",
-            icon: "💰",
+            iconName: "💰",
         },
     },
     {
@@ -92,7 +92,7 @@ export const mockRecords: Record[] = [
             id: 5,
             name: "ที่พัก",
             type: "expense",
-            icon: "🏠",
+            iconName: "🏠",
         },
     },
     {
@@ -105,7 +105,7 @@ export const mockRecords: Record[] = [
             id: 2,
             name: "อาหาร",
             type: "expense",
-            icon: "🍜",
+            iconName: "🍜",
         },
     },
     {
@@ -118,7 +118,7 @@ export const mockRecords: Record[] = [
             id: 3,
             name: "ช้อปปิ้ง",
             type: "expense",
-            icon: "🎁",
+            iconName: "🎁",
         },
     },
     {
@@ -131,7 +131,7 @@ export const mockRecords: Record[] = [
             id: 4,
             name: "งานพิเศษ",
             type: "income",
-            icon: "💻",
+            iconName: "💻",
         },
     },
 
@@ -146,7 +146,7 @@ export const mockRecords: Record[] = [
             id: 1,
             name: "เงินเดือน",
             type: "income",
-            icon: "💰",
+            iconName: "💰",
         },
     },
     {
@@ -159,7 +159,7 @@ export const mockRecords: Record[] = [
             id: 2,
             name: "อาหาร",
             type: "expense",
-            icon: "🍜",
+            iconName: "🍜",
         },
     },
     {
@@ -172,7 +172,7 @@ export const mockRecords: Record[] = [
             id: 3,
             name: "ช้อปปิ้ง",
             type: "expense",
-            icon: "👕",
+            iconName: "👕",
         },
     },
     {
@@ -185,7 +185,7 @@ export const mockRecords: Record[] = [
             id: 4,
             name: "งานพิเศษ",
             type: "income",
-            icon: "💻",
+            iconName: "💻",
         },
     },
 
@@ -200,7 +200,7 @@ export const mockRecords: Record[] = [
             id: 2,
             name: "อาหาร",
             type: "expense",
-            icon: "☕",
+            iconName: "☕",
         },
     },
     {
@@ -213,7 +213,7 @@ export const mockRecords: Record[] = [
             id: 2,
             name: "อาหาร",
             type: "expense",
-            icon: "🍜",
+            iconName: "🍜",
         },
     },
     {
@@ -226,7 +226,7 @@ export const mockRecords: Record[] = [
             id: 3,
             name: "ช้อปปิ้ง",
             type: "expense",
-            icon: "👟",
+            iconName: "👟",
         },
     },
     {
@@ -239,7 +239,7 @@ export const mockRecords: Record[] = [
             id: 1,
             name: "เงินเดือน",
             type: "income",
-            icon: "💰",
+            iconName: "💰",
         },
     },
 
@@ -254,7 +254,7 @@ export const mockRecords: Record[] = [
             id: 1,
             name: "เงินเดือน",
             type: "income",
-            icon: "💰",
+            iconName: "💰",
         },
     },
     {
@@ -267,7 +267,7 @@ export const mockRecords: Record[] = [
             id: 6,
             name: "เดินทาง",
             type: "expense",
-            icon: "🚗",
+            iconName: "🚗",
         },
     },
     {
@@ -280,7 +280,7 @@ export const mockRecords: Record[] = [
             id: 2,
             name: "อาหาร",
             type: "expense",
-            icon: "🍜",
+            iconName: "🍜",
         },
     },
     {
@@ -293,7 +293,7 @@ export const mockRecords: Record[] = [
             id: 7,
             name: "รายได้อื่น",
             type: "income",
-            icon: "📦",
+            iconName: "📦",
         },
     },
 
@@ -308,7 +308,7 @@ export const mockRecords: Record[] = [
             id: 1,
             name: "เงินเดือน",
             type: "income",
-            icon: "💰",
+            iconName: "💰",
         },
     },
     {
@@ -321,7 +321,7 @@ export const mockRecords: Record[] = [
             id: 3,
             name: "ช้อปปิ้ง",
             type: "expense",
-            icon: "🛒",
+            iconName: "🛒",
         },
     },
     {
@@ -334,7 +334,7 @@ export const mockRecords: Record[] = [
             id: 2,
             name: "อาหาร",
             type: "expense",
-            icon: "🍜",
+            iconName: "🍜",
         },
     },
     {
@@ -347,7 +347,7 @@ export const mockRecords: Record[] = [
             id: 4,
             name: "งานพิเศษ",
             type: "income",
-            icon: "💻",
+            iconName: "💻",
         },
     },
     {
@@ -360,7 +360,7 @@ export const mockRecords: Record[] = [
             id: 2,
             name: "อาหาร",
             type: "expense",
-            icon: "☕",
+            iconName: "☕",
         },
     },
 ];

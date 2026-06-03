@@ -2,6 +2,7 @@ import { useState } from "react";
 import PrimaryButton from "../primaryButton";
 import EmojiPicker from "emoji-picker-react";
 import type { Category } from "../../types/category";
+import { categoryAPI } from "../../api/categoryAPI";
 
 type Props = {
     onBack: () => void;
@@ -31,35 +32,23 @@ export default function CategoryForm({
 
         return newErrors;
     };
-    const handleSubmit = async (
-        e: React.FormEvent
-    ) => {
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
 
         const validationErrors = validate();
-
         setErrors(validationErrors);
 
-        const hasError = Object.values(
-            validationErrors
-        ).some(Boolean);
-
+        const hasError = Object.values(validationErrors).some(Boolean);
         if (hasError) return;
 
         try {
-            const newCategory = {
-                id: Date.now(),
+            const res = await categoryAPI.createCategory({
                 name,
-                type:
-                    type as
-                        | "income"
-                        | "expense",
-                icon,
-            };
+                type: type as "income" | "expense",
+                iconName: icon,
+            });
 
-            onCreateCategory(
-                newCategory
-            );
+            onCreateCategory(res.data.data); // 👈 backend response
 
         } catch (error) {
             console.error(error);

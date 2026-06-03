@@ -116,7 +116,7 @@ export default function DailyRecordPanel({
                                 <div>
                                     <div className="flex flex-row gap-2 items-center">
                                         <p className="font-medium text-sm">
-                                            {record.category.icon}
+                                            {record.category.iconName}
                                         </p>
                                         <p className="text-sm text-left font-medium max-w-24 w-24 wrap-break-word line-clamp-2 text-ellipsis">
                                             {record.category.name}

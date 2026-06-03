@@ -40,7 +40,7 @@ export default function Home() {
             const current = categoryMap.get(categoryId) || {
                 id: categoryId,
                 name: record.category.name,
-                icon: record.category.icon,
+                icon: record.category.iconName,
                 type: record.category.type,
                 total: 0,
                 count: 0,

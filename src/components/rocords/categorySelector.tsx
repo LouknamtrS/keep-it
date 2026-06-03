@@ -54,7 +54,7 @@ export default function CategorySelector({
                                     : "bg-error-20 text-error-50"
                             }`}
                         >
-                            {category.icon}
+                            {category.iconName}
                         </div>
 
                         <span className="text-sm text-center w-20 line-clamp-2">
