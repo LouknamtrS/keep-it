@@ -14,3 +14,12 @@ export type RecordErrors = {
     category: string;
     description: string;
 };
+
+export type Record = {
+    id: string;
+    type: "income" | "expense";
+    amount: number;
+    description: string;
+    datetime: string;
+    category: Category;
+};

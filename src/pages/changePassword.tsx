@@ -170,7 +170,7 @@ export default function ChangePassword() {
         <>
             <Navbar />
             <div className="flex justify-center mt-12">
-                <div className="flex flex-col gap-6 pt-10 px-6 sm:px-12 pb-10 bg-white rounded-2xl shadow-none sm:shadow-sm sm:border sm:border-gray-100 border-none w-full max-w-xl mx-auto mt-10">
+                <div className="flex flex-col gap-6 pt-10 px-6 lg:px-12 pb-10 bg-white rounded-2xl shadow-none lg:shadow-sm lg:border lg:border-gray-100 border-none w-full max-w-xl mx-auto mt-10">
                     <div className="flex flex-row items-center w-full relative">
                         <button 
                             onClick={() => navigate("/security")}
@@ -204,7 +204,7 @@ export default function ChangePassword() {
                             onSubmit={
                                 handleChangePassword
                             }
-                            className="flex flex-col gap-12 sm:mx-20"
+                            className="flex flex-col gap-12 lg:mx-20"
                         >
                             <div className="flex flex-col gap-2 w-full">
                                  {/* รหัสผ่านเก่า */}

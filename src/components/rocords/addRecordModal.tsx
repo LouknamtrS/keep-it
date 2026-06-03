@@ -1,6 +1,6 @@
 import { useState } from "react";
 import type { Category } from "../../types/category";
-import type {RecordFormData,RecordErrors} from "../../types/records";
+import type {RecordFormData,RecordErrors, Record} from "../../types/records";
 import PrimaryButton from "../primaryButton";
 import CategoryForm from "../category/categoryForm";
 import RecordForm from "./recordForm";
@@ -84,15 +84,14 @@ export default function AddRecordModal({
 
         if (hasError) return;
 
-        const newRecord = {
+        const newRecord: Record = {
+            id: crypto.randomUUID(),
             type: formData.type,
             amount: Number(formData.amount),
-            categoryId: formData.category?.id,
             description: formData.description,
             datetime: recordDateTime,
+            category: formData.category!,
         };
-
-        console.log(newRecord);
 
         handleClose();
     };

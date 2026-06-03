@@ -15,7 +15,7 @@ export default function AnalyticsTable({
     hasData,
 }: Props) {
     return (
-        <table className="w-full max-w-md sm:w-11/12 shadow-sm rounded-2xl overflow-hidden">
+        <table className="w-full max-w-md lg:w-11/12 shadow-sm rounded-2xl overflow-hidden">
             <thead className="bg-primary-10 ">
                 <tr className="text-center text-gray-50 ">
                     <th className="p-2 text-left">Title</th>

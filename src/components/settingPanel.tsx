@@ -35,7 +35,7 @@ export default function SettingPanel() {
   ];
 
   return (
-    <div className="flex flex-col gap-6 pt-10 px-6 sm:px-12 pb-10 bg-white rounded-2xl shadow-none sm:shadow-sm sm:border sm:border-gray-100 border-none w-full max-w-4xl mx-auto mt-10">
+    <div className="flex flex-col gap-6 pt-10 px-6 lg:px-12 pb-10 bg-white rounded-2xl shadow-none lg:shadow-sm lg:border lg:border-gray-100 border-none w-full max-w-4xl mx-auto mt-10">
         <h1 className="text-2xl font-bold text-gray-800 text-center">การตั้งค่า</h1>
         <div className="flex flex-row flex-wrap justify-center w-full gap-4">
             {settings.map((item, index) => (

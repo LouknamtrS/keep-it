@@ -8,7 +8,7 @@ export default function Security(){
         <>
             <Navbar />
             <div className="flex w-screen h-screen items-start justify-center mt-12">
-                <div className="flex flex-col gap-6 pt-10 px-6 sm:px-12 pb-10 bg-white rounded-2xl shadow-none sm:shadow-sm sm:border sm:border-gray-100 border-none w-full max-w-xl mx-auto mt-10">
+                <div className="flex flex-col gap-6 pt-10 px-6 lg:px-12 pb-10 bg-white rounded-2xl shadow-none lg:shadow-sm lg:border lg:border-gray-100 border-none w-full max-w-xl mx-auto mt-10">
                     <div className="flex flex-row items-center w-full relative">
                         <button 
                             onClick={() => navigate("/setting")}
@@ -26,7 +26,9 @@ export default function Security(){
                             <p className="text-start">เปลี่ยนรหัสผ่าน</p>
                             <i className="bi bi-chevron-right text-xl text-primary-50"></i>
                         </button>
-                        <button className="flex flex-row justify-between items-center w-full py-4 px-4 rounded-2xl bg-highlight-20 text-gray-50 hover:bg-highlight-40 transition-colors cursor-pointer">
+                        <button 
+                            onClick={() => navigate("/delete-account")}
+                            className="flex flex-row justify-between items-center w-full py-4 px-4 rounded-2xl bg-highlight-20 text-gray-50 hover:bg-highlight-40 transition-colors cursor-pointer">
                             <p className="text-start">ลบบัญชี</p>
                             <i className="bi bi-chevron-right text-xl text-primary-50"></i>
                         </button>

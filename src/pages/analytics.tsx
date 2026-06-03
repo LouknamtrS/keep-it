@@ -1,5 +1,6 @@
 import Navbar from "../components/navbar";
-import { useState, useEffect, useMemo } from "react";
+import { useState, useMemo } from "react";
+import { useSearchParams } from "react-router-dom";
 import type { AnalyticsResponse } from "../types/analytics";
 import { analyticsApi } from "../api/analyticsAPI";
 import { getNextMonth, getPrevMonth} from "../utils/date";
@@ -12,13 +13,17 @@ export default function Analytics() {
 
     const [activeTab, setActiveTab] = useState<"income" | "expense">("income");
     const [analytics, setAnalytics] = useState<AnalyticsResponse | null>(null);
-    const [month, setMonth] =useState(6);
-    const [year, setYear] =useState(2026);
-    //รอทำหน้า home เด่วมาแก้ init month, year เป็นเดือนที่เลือกในหน้า home
+    const [searchParams] = useSearchParams();
 
-    useEffect(() => {
-        fetchAnalytics();
-    }, [month, year]);
+    const [month, setMonth] = useState(
+        Number(searchParams.get("month")) ||
+        new Date().getMonth() + 1
+    );
+
+    const [year, setYear] = useState(
+        Number(searchParams.get("year")) ||
+        new Date().getFullYear()
+    );
 
     const fetchAnalytics = async () => {
         try {
@@ -79,9 +84,9 @@ export default function Analytics() {
     return (
         <>
             <Navbar />
-            <div className="flex flex-col sm:flex-row w-screen h-screen items-center justify-start mt-8">
-                <div className="flex sm:w-5/8 w-full h-full items-start justify-center">
-                    <div className="flex flex-col items-center gap-6 pt-8 px-6 sm:px-12 pb-8 bg-white rounded-2xl shadow-none sm:shadow-sm sm:border sm:border-gray-100 border-none w-11/12 max-w-xl mx-auto ">
+            <div className="flex flex-col lg:flex-row w-screen h-screen items-center justify-start mt-8">
+                <div className="flex lg:w-5/8 w-full h-full items-start justify-center">
+                    <div className="flex flex-col items-center gap-6 pt-8 px-6 lg:px-12 pb-8 bg-white rounded-2xl shadow-none lg:shadow-sm lg:border lg:border-gray-100 border-none w-11/12 max-w-xl mx-auto ">
                         <AnalyticsHeader
                             month={month}
                             year={year}
@@ -135,7 +140,7 @@ export default function Analytics() {
                         )}
                     </div>
                 </div>
-                <div className="flex sm:w-3/8 w-full h-full items-start justify-center">
+                <div className="flex lg:w-3/8 w-full h-full items-start justify-center">
                     <AnalyticsTable
                         chartData={chartData}
                         total={total}

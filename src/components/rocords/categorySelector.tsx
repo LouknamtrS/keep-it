@@ -34,7 +34,7 @@ export default function CategorySelector({
                         onClick={() =>
                             onSelect(category)
                         }
-                        className={`flex flex-col items-center gap-2 transition ${
+                        className={`flex flex-col items-center gap-2 transition cursor-pointer ${
                             selectedCategory?.id ===
                             category.id
                                 ? "scale-105"

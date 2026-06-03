@@ -12,7 +12,6 @@ export default function DeleteAccount() {
 
         try {
             // await userAPI.deleteAccount();
-
             showSuccess(
                 "ลบบัญชีสำเร็จ",
                 "บัญชีของคุณถูกลบเรียบร้อยแล้ว"
@@ -30,7 +29,7 @@ export default function DeleteAccount() {
         <>
             <Navbar />
             <div className="flex w-screen h-screen items-start justify-center mt-12">
-                <div className="flex flex-col gap-6 pt-10 px-6 sm:px-12 pb-10 bg-white rounded-2xl shadow-none sm:shadow-sm sm:border sm:border-gray-100 border-none w-full max-w-xl mx-auto mt-10">
+                <div className="flex flex-col gap-6 pt-10 px-6 lg:px-12 pb-10 bg-white rounded-2xl shadow-none lg:shadow-sm lg:border lg:border-gray-100 border-none w-full max-w-xl mx-auto mt-10">
                     <div className="flex flex-row items-center w-full relative">
                         <button 
                             onClick={() => navigate("/security")}

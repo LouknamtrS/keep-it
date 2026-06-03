@@ -16,18 +16,14 @@ export default function RecordDateTime({
             <input
                 type="date"
                 value={date}
-                onChange={(e) =>
-                    onDateChange(e.target.value)
-                }
+                onChange={(e) =>onDateChange(e.target.value)}
                 className="rounded-2xl py-2 px-3 w-full focus:outline-none focus:ring-1 focus:ring-primary-40 bg-primary-10"
             />
 
             <input
                 type="time"
                 value={time}
-                onChange={(e) =>
-                    onTimeChange(e.target.value)
-                }
+                onChange={(e) =>onTimeChange(e.target.value)}
                 className="rounded-2xl py-2 px-3 w-full focus:outline-none focus:ring-1 focus:ring-primary-40 bg-primary-10"
             />
         </div>

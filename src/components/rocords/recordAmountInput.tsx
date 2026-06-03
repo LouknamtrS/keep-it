@@ -14,9 +14,7 @@ export default function RecordAmountInput({
             <div className="relative w-full">
                 <input
                     value={value}
-                    onChange={(e) =>
-                        onChange(e.target.value)
-                    }
+                    onChange={(e) =>onChange(e.target.value)}
                     placeholder="กรุณากรอกจำนวนเงิน"
                     className="border border-gray-20 rounded-2xl py-2 pl-2 pr-12 w-full focus:outline-none focus:ring-1 focus:ring-primary-40 text-gray-50 placeholder-gray-40"
                 />
@@ -25,7 +23,7 @@ export default function RecordAmountInput({
                 </span>
                 </div>
                 {error && (
-                <p className="text-error-40 text-sm mt-1 pl-4">{error}</p>
+                    <p className="text-error-40 text-sm mt-1 pl-4">{error}</p>
                 )}
            
         </div>
