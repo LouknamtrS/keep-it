@@ -18,6 +18,7 @@ type Props = {
         date: Date
     ) => void;
     onRecordAdded?: () => void;
+    onCategoryAdded?: (category: Category) => void;
 };
 
 export default function RecordCalendar({
@@ -26,7 +27,8 @@ export default function RecordCalendar({
     onDateChange,
     selectedDate,
     onSelectedDateChange,
-    onRecordAdded
+    onRecordAdded,
+    onCategoryAdded
 }: Props) {
     const navigate = useNavigate();
     const [isAddRecordOpen, setIsAddRecordOpen] = useState(false);
@@ -46,6 +48,9 @@ export default function RecordCalendar({
             ...prev,
             newCategory,
         ]);
+        if (onCategoryAdded) {
+            onCategoryAdded(newCategory);
+        }
     };
 
     const dailySummary =

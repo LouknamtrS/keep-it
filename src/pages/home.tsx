@@ -41,6 +41,10 @@ export default function Home() {
         fetchRecords();
     };
 
+    const handleCategoryAdded = (newCategory: Category) => {
+        setCategories(prev => [...prev, newCategory]);
+    };
+
     const categoryMap = useMemo(() => {
         return new Map(
             categories.map(category => [
@@ -73,15 +77,17 @@ export default function Home() {
             .filter(record => {
                 const date = new Date(record.date);
                 return date.getFullYear() === selYear &&
-                    date.getMonth() === selMonth &&
-                    date.getDate() === selDay;
+                       date.getMonth() === selMonth &&
+                       date.getDate() === selDay;
             })
             .map(record => ({
                 ...record,
+                // Ensure category is available, fallback to categoryMap if record doesn't have it joined
                 category: record.category || categoryMap.get(Number((record as any).categoryId)),
+                // Map description to note for DailyRecordPanel compatibility
                 note: record.description || (record as any).note,
                 categoryId: (record as any).categoryId || record.category?.id
-            })) as unknown as EnrichedRecord[];
+            })) as EnrichedRecord[];
     }, [records, selectedDate, categoryMap]);
 
     return (
@@ -110,6 +116,7 @@ export default function Home() {
                             setSelectedDate
                         }
                         onRecordAdded={handleRecordAdded}
+                        onCategoryAdded={handleCategoryAdded}
                     />
                 </div>
             </div>

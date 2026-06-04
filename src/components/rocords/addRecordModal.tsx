@@ -68,6 +68,7 @@ export default function AddRecordModal({
                     <CategoryForm
                         onBack={() => setView("record")}
                         onCreateCategory={(newCategory) => {
+                            setCategories(prev => [...prev, newCategory]);
                             onAddCategory(newCategory);
                             setFormData(prev => ({
                                 ...prev,
