@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import Navbar from "../components/navbar";
 import PrimaryButton from "../components/primaryButton";
 import { showError, showSuccess } from "../utils/alert";
+import { authAPI } from "../api/authAPI";
 
 type Step =
     | "select-method"
@@ -20,15 +21,15 @@ type FormErrors = FormData;
 type FormField = keyof FormData;
 
 const initialForm: FormData = {
-  oldPassword: '',
-  newPassword : '',
-  confirmPassword: ''
+    oldPassword: '',
+    newPassword: '',
+    confirmPassword: ''
 };
 
 const initialErrors: FormErrors = {
-  oldPassword: '',
-  newPassword: '',
-  confirmPassword: ''
+    oldPassword: '',
+    newPassword: '',
+    confirmPassword: ''
 };
 
 export default function ChangePassword() {
@@ -45,7 +46,7 @@ export default function ChangePassword() {
     const [isLoading, setIsLoading] =
         useState(false);
 
-    const email = "l***@keepit.com";
+    const email = "keerataphant@gmail.com";
 
     const handleChange = (
         e: React.ChangeEvent<HTMLInputElement>
@@ -119,12 +120,7 @@ export default function ChangePassword() {
         try {
             setIsLoading(true);
 
-            /*
-            await authAPI.changePassword({
-                oldPassword: formData.oldPassword,
-                newPassword: formData.newPassword
-            });
-            */
+            await authAPI.changePassword(formData.newPassword);
 
             showSuccess(
                 "เปลี่ยนรหัสผ่านสำเร็จ",
@@ -144,14 +140,16 @@ export default function ChangePassword() {
         }
     };
 
+
+
+
     const handleForgotPassword = async () => {
         try {
             setIsLoading(true);
 
-            /*
-            await api.post("/forgot-password");
-            */
-           showSuccess(
+            await authAPI.forgotPassword(email);
+
+            showSuccess(
                 "ส่งอีเมลสำเร็จ",
                 "โปรดตรวจสอบอีเมลของคุณสำหรับลิงก์รีเซ็ตรหัสผ่าน"
             );
@@ -162,7 +160,7 @@ export default function ChangePassword() {
             );
         } finally {
             setIsLoading(false);
-            
+
         }
     };
 
@@ -172,7 +170,7 @@ export default function ChangePassword() {
             <div className="flex justify-center mt-12">
                 <div className="flex flex-col gap-6 pt-10 px-6 lg:px-12 pb-10 bg-white rounded-2xl shadow-none lg:shadow-sm lg:border lg:border-gray-100 border-none w-full max-w-xl mx-auto mt-10">
                     <div className="flex flex-row items-center w-full relative">
-                        <button 
+                        <button
                             onClick={() => navigate("/security")}
                             className="flex items-center justify-center gap-2 text-primary-500 hover:text-primary-600 cursor-pointer absolute left-0 z-10"
                         >
@@ -188,13 +186,13 @@ export default function ChangePassword() {
                                 onClick={() => setStep("change-password")}
                                 className="flex flex-row justify-between items-center w-full py-4 px-4 rounded-2xl bg-highlight-20 text-gray-50 hover:bg-highlight-40 transition-colors cursor-pointer"
                             >ฉันจำรหัสผ่านปัจจุบันได้
-                            <i className="bi bi-chevron-right text-xl text-primary-50"></i>
+                                <i className="bi bi-chevron-right text-xl text-primary-50"></i>
                             </button>
                             <button
-                                onClick={() =>setStep("forgot-password")}
+                                onClick={() => setStep("forgot-password")}
                                 className="flex flex-row justify-between items-center w-full py-4 px-4 rounded-2xl bg-highlight-20 text-gray-50 hover:bg-highlight-40 transition-colors cursor-pointer "
                             >ฉันลืมรหัสผ่าน
-                            <i className="bi bi-chevron-right text-xl text-primary-50"></i>
+                                <i className="bi bi-chevron-right text-xl text-primary-50"></i>
                             </button>
                         </div>
                     )}
@@ -207,7 +205,7 @@ export default function ChangePassword() {
                             className="flex flex-col gap-12 lg:mx-20"
                         >
                             <div className="flex flex-col gap-2 w-full">
-                                 {/* รหัสผ่านเก่า */}
+                                {/* รหัสผ่านเก่า */}
                                 <div className="flex flex-col items-start w-full">
                                     <label className="text-sm text-primary-70 text-left pl-4">
                                         รหัสผ่านเก่า
@@ -219,8 +217,8 @@ export default function ChangePassword() {
                                             name="oldPassword"
                                             type={
                                                 showOldPassword
-                                                ? "text"
-                                                : "password"
+                                                    ? "text"
+                                                    : "password"
                                             }
                                             value={formData.oldPassword}
                                             onChange={handleChange}
@@ -236,21 +234,20 @@ export default function ChangePassword() {
                                             className="absolute right-4 top-1/2 -translate-y-1/2 text-primary-50 hover:text-primary-60"
                                         >
                                             <i
-                                                className={`bi ${
-                                                    showOldPassword
-                                                        ? "bi-eye-slash-fill"
-                                                        : "bi-eye-fill"
-                                                }`}
+                                                className={`bi ${showOldPassword
+                                                    ? "bi-eye-slash-fill"
+                                                    : "bi-eye-fill"
+                                                    }`}
                                             />
                                         </button>
                                     </div>
                                     {errors.oldPassword && (
-                                    <p className="text-error-40 text-sm mt-1 pl-4">
-                                        {errors.oldPassword}
-                                    </p>
+                                        <p className="text-error-40 text-sm mt-1 pl-4">
+                                            {errors.oldPassword}
+                                        </p>
                                     )}
                                 </div>
-                                
+
                                 {/* รหัสผ่านใหม่ */}
                                 <div className="flex flex-col items-start w-full">
                                     <label className="text-sm text-primary-70 text-left pl-4">
@@ -281,21 +278,20 @@ export default function ChangePassword() {
                                             className="absolute right-4 top-1/2 -translate-y-1/2 text-primary-50 hover:text-primary-60"
                                         >
                                             <i
-                                                className={`bi ${
-                                                    showNewPassword
-                                                        ? "bi-eye-slash-fill"
-                                                        : "bi-eye-fill"
-                                                }`}
+                                                className={`bi ${showNewPassword
+                                                    ? "bi-eye-slash-fill"
+                                                    : "bi-eye-fill"
+                                                    }`}
                                             />
                                         </button>
                                     </div>
                                     {errors.newPassword && (
-                                    <p className="text-error-40 text-sm mt-1 pl-4">
-                                        {errors.newPassword}
-                                    </p>
-                                )}
+                                        <p className="text-error-40 text-sm mt-1 pl-4">
+                                            {errors.newPassword}
+                                        </p>
+                                    )}
                                 </div>
-                                
+
 
                                 {/* ยืนยันรหัสผ่าน */}
                                 <div className="flex flex-col items-start w-full">
@@ -329,21 +325,20 @@ export default function ChangePassword() {
                                             className="absolute right-4 top-1/2 -translate-y-1/2 text-primary-50 hover:text-primary-60"
                                         >
                                             <i
-                                                className={`bi ${
-                                                    showConfirmPassword
-                                                        ? "bi-eye-slash-fill"
-                                                        : "bi-eye-fill"
-                                                }`}
+                                                className={`bi ${showConfirmPassword
+                                                    ? "bi-eye-slash-fill"
+                                                    : "bi-eye-fill"
+                                                    }`}
                                             />
                                         </button>
                                     </div>
                                     {errors.confirmPassword && (
-                                    <p className="text-error-40 text-sm mt-1 pl-4">
-                                        {errors.confirmPassword}
-                                    </p>
+                                        <p className="text-error-40 text-sm mt-1 pl-4">
+                                            {errors.confirmPassword}
+                                        </p>
                                     )}
                                 </div>
-                                
+
                             </div>
                             <PrimaryButton>
                                 {isLoading ? "กำลังเปลี่ยนรหัสผ่าน..." : "เปลี่ยนรหัสผ่าน"}
@@ -363,8 +358,8 @@ export default function ChangePassword() {
                                 </p>
                             </div>
                             <PrimaryButton onClick={
-                                    handleForgotPassword
-                                } disabled={isLoading}>
+                                handleForgotPassword
+                            } disabled={isLoading}>
                                 {isLoading ? "กำลังส่ง..." : "ดำเนินการต่อ"}
                             </PrimaryButton>
 

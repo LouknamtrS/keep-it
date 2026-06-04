@@ -1,10 +1,9 @@
-import axios from "axios";
-import appConfig from "../config/config";
+import { api } from "./axios";
 
 export const userAPI = {
     async updateProfile(formData: FormData) {
-        return axios.put(
-            `${appConfig.backendBaseUrl}:${appConfig.backendPort.user}/profile/update`,
+        return api.put(
+            `/user/profile/update`,
             formData,
             {
                 withCredentials: true,
@@ -16,8 +15,8 @@ export const userAPI = {
     },
 
     async getProfile() {
-        return axios.get(
-            `${appConfig.backendBaseUrl}:${appConfig.backendPort.user}/profile`,
+        return api.get(
+            `/user/profile`,
             {
                 withCredentials: true,
             }

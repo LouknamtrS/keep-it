@@ -1,6 +1,4 @@
-import axios from "axios";
-import appConfig from "../config/config";
-import { firebaseClientAuth } from "../config/firebaseClientConfig";
+import { api } from "./axios";
 
 export const recordAPI = {
     async createIncome(data: {
@@ -9,8 +7,8 @@ export const recordAPI = {
         date: string;
         note: string;
     }) {
-        return axios.post(
-            `${appConfig.backendBaseUrl}:${appConfig.backendPort.incomeExpense}/create-income`,
+        return api.post(
+            `/income-expense/create`,
             data,
             {
                 withCredentials: true,
@@ -24,8 +22,8 @@ export const recordAPI = {
         date: string;
         note: string;
     }) {
-        return axios.post(
-            `${appConfig.backendBaseUrl}:${appConfig.backendPort.incomeExpense}/create-expense`,
+        return api.post(
+            `/income-expense/create`,
             data,
             {
                 withCredentials: true,
@@ -33,8 +31,8 @@ export const recordAPI = {
         );
     },
     async getAll() {
-        return axios.get(
-            `${appConfig.backendBaseUrl}:${appConfig.backendPort.incomeExpense}/all`,
+        return api.get(
+            `/income-expense/all`,
             {
                 withCredentials: true,
             }
