@@ -8,7 +8,7 @@ export const recordAPI = {
         note: string;
     }) {
         return api.post(
-            `/income-expense/create`,
+            `/income-expense/create-income`,
             data,
             {
                 withCredentials: true,
@@ -23,7 +23,7 @@ export const recordAPI = {
         note: string;
     }) {
         return api.post(
-            `/income-expense/create`,
+            `/income-expense/create-expense`,
             data,
             {
                 withCredentials: true,
