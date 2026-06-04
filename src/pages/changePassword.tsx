@@ -1,9 +1,10 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Navbar from "../components/navbar";
 import PrimaryButton from "../components/primaryButton";
 import { showError, showSuccess } from "../utils/alert";
 import { authAPI } from "../api/authAPI";
+import { getAuth, onAuthStateChanged } from "firebase/auth";
 
 type Step =
     | "select-method"
@@ -46,7 +47,23 @@ export default function ChangePassword() {
     const [isLoading, setIsLoading] =
         useState(false);
 
-    const email = "keerataphant@gmail.com";
+    const [email, setEmail] = useState<string>("");
+
+    useEffect(() => {
+        const auth = getAuth();
+
+        const unsubscribe = onAuthStateChanged(auth, (user) => {
+            if (user?.email) {
+                setEmail(user.email);
+                console.log("email:", user.email);
+            } else {
+                setEmail("");
+                console.log("ยังไม่ได้ login หรือไม่มี email");
+            }
+        });
+
+        return () => unsubscribe();
+    }, []);
 
     const handleChange = (
         e: React.ChangeEvent<HTMLInputElement>
