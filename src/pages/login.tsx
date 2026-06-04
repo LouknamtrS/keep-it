@@ -72,10 +72,6 @@ export default function LoginPage() {
     try {
       setIsSubmitting(true);
 
-      //console.log('Login success:', formData);
-      const response = await authAPI.login(formData);
-      alert(response.message || 'เข้าสู่ระบบสำเร็จ');
-
       setFormData(initialForm);
       navigate("/");
 
