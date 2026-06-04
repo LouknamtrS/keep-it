@@ -5,14 +5,18 @@ type ChartItem = {
 
 type Props = {
     chartData: ChartItem[];
-    total: number;
+    totalIncome: number;
+    totalExpense: number;
     hasData: boolean;
+    activeTab: "income" | "expense";
 };
 
 export default function AnalyticsTable({
     chartData,
-    total,
+    totalIncome,
+    totalExpense,
     hasData,
+    activeTab,
 }: Props) {
     return (
         <table className="w-full max-w-md lg:w-11/12 shadow-sm rounded-2xl overflow-hidden">
@@ -35,6 +39,7 @@ export default function AnalyticsTable({
                     </tr>
                 ) : (
                     chartData.map((item) => {
+                        const total = activeTab === "income" ? totalIncome : totalExpense;
                         const percent = (
                             (item.value / total) *
                             100

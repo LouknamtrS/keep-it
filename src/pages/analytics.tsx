@@ -1,19 +1,22 @@
 import Navbar from "../components/navbar";
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
-import type { AnalyticsResponse } from "../types/analytics";
+import type { AnalyticsData, AnalyticsData2, AnalyticsResponse } from "../types/analytics";
 import { analyticsApi } from "../api/analyticsAPI";
-import { getNextMonth, getPrevMonth} from "../utils/date";
+import { getNextMonth, getPrevMonth } from "../utils/date";
 import AnalyticsHeader from "../components/analytics/analyticsHeader";
 import SummaryCards from "../components/analytics/summaryCard";
 import AnalyticsChart from "../components/analytics/analyticsChart";
 import AnalyticsTable from "../components/analytics/analyticsTable";
+import { categoryAPI } from "../api/categoryAPI";
+
 
 export default function Analytics() {
 
     const [activeTab, setActiveTab] = useState<"income" | "expense">("income");
-    const [analytics, setAnalytics] = useState<AnalyticsResponse | null>(null);
     const [searchParams] = useSearchParams();
+    const [monthlySummary, setMonthlySummary] = useState<AnalyticsData2 | null>(null);
+    const [categoryData, setCategoryData] = useState<{ id: number; name: string }[] | null>([] as any);
 
     const [month, setMonth] = useState(
         Number(searchParams.get("month")) ||
@@ -25,22 +28,42 @@ export default function Analytics() {
         new Date().getFullYear()
     );
 
-    const fetchAnalytics = async () => {
-        try {
-            const response =
-                await analyticsApi.getSummary(
-                    "1",
+    const userId = "james11111111";
+
+    useEffect(() => {
+        const fetchMonthlySummary = async () => {
+            try {
+                const result = await analyticsApi.getMonthlySummary(
+                    userId,
                     month,
                     year
                 );
 
-            setAnalytics(response.data ?? null);
+                setMonthlySummary(result.data);
+            } catch (err) {
+                console.error("Get monthly summary failed:", err);
+                setMonthlySummary(null);
+            }
+        };
 
-        } catch (error) {
-            console.error(error);
-            setAnalytics(null);
-        }
-    };
+        fetchMonthlySummary();
+    }, [userId, month, year]);
+
+    useEffect(() => {
+        const fetchCategories = async () => {
+            try {
+                const categories = await categoryAPI.getAllCategories();
+
+                setCategoryData(categories.data.data);
+            } catch (err) {
+                console.error("Get categories failed:", err);
+                setCategoryData([]);
+            }
+        };
+
+        fetchCategories();
+    }, []);
+
     const handlePrevMonth = () => {
         const result = getPrevMonth(
             month,
@@ -62,24 +85,19 @@ export default function Analytics() {
     };
 
     const chartData = useMemo(() => {
-    return (
-        analytics?.data.summaryPerCategory
-        .filter(item => item.type === activeTab)
-        .map(item => ({
-            name: item.category,
-            value: item.amount,
-        })).sort((a, b) => b.value - a.value) ?? []
-    );
-    }, [analytics, activeTab]);
+        const categoryNameMap = new Map(
+            categoryData?.map((category) => [category.id, category.name]) ?? []
+        );
 
-    const total = useMemo(
-    () =>
-        chartData.reduce(
-        (sum, item) => sum + item.value,0),
-        [chartData]
-    );
+        return monthlySummary?.categories
+            ?.filter((item) => item.type === activeTab)
+            .map((item) => ({
+                name: categoryNameMap.get(item.categoryId) ?? "ไม่พบหมวดหมู่",
+                value: item.amount,
+            })) ?? [];
+    }, [monthlySummary, categoryData, activeTab]);
 
-    const hasData = !!analytics && analytics.data.summaryPerCategory.length > 0;
+    const hasData = !!monthlySummary && monthlySummary.categories.length > 0;
 
     return (
         <>
@@ -93,58 +111,59 @@ export default function Analytics() {
                             onPrev={handlePrevMonth}
                             onNext={handleNextMonth}
                         />
-                        {!hasData ?(
+                        {!hasData ? (
                             <div className="flex flex-col items-center gap-4 py-16">
                                 <i className="bi bi-emoji-frown text-4xl text-gray-20"></i>
                                 <p className="text-sm text-gray-500">ไม่มีข้อมูลในเดือนนี้</p>
                             </div>
                         )
-                        :(
-                        <>
-                            <SummaryCards
-                                income={analytics?.data.totalIncome ?? 0}
-                                expense={analytics?.data.totalExpense ?? 0}
-                            />
-                            <div className="flex flex-col items-center gap-6 bg-white rounded-2xl border border-gray-10 w-full mx-auto p-4">
-                                <div className="flex bg-primary-10 rounded-xl p-1 w-full">
-                                    <button
-                                        onClick={() => setActiveTab("income")}
-                                        className={`flex-1 py-2 rounded-lg transition cursor-pointer ${
-                                            activeTab === "income"
-                                                ? "bg-primary-30 shadow text-gray-50"
-                                                : "text-gray-20"
-                                        }`}
-                                    >
-                                        รายรับ
-                                    </button>
-                                    <button
-                                        onClick={() => setActiveTab("expense")}
-                                        className={`flex-1 py-2 rounded-lg transition cursor-pointer ${
-                                            activeTab === "expense"
-                                                ? "bg-primary-30 shadow text-gray-50"
-                                                : "text-gray-20"
-                                        }`}
-                                    >
-                                        รายจ่าย
-                                    </button>
-                                </div>
-                                <div className="w-full h-80 relative">
-                                    <AnalyticsChart
-                                        chartData={chartData}
-                                        total={total}
-                                        activeTab={activeTab}
+                            : (
+                                <>
+                                    <SummaryCards
+                                        income={monthlySummary?.totalIncome ?? 0}
+                                        expense={monthlySummary?.totalExpense ?? 0}
                                     />
-                                </div>
-                            </div>
-                        </>
-                        )}
+                                    <div className="flex flex-col items-center gap-6 bg-white rounded-2xl border border-gray-10 w-full mx-auto p-4">
+                                        <div className="flex bg-primary-10 rounded-xl p-1 w-full">
+                                            <button
+                                                onClick={() => setActiveTab("income")}
+                                                className={`flex-1 py-2 rounded-lg transition cursor-pointer ${activeTab === "income"
+                                                    ? "bg-primary-30 shadow text-gray-50"
+                                                    : "text-gray-20"
+                                                    }`}
+                                            >
+                                                รายรับ
+                                            </button>
+                                            <button
+                                                onClick={() => setActiveTab("expense")}
+                                                className={`flex-1 py-2 rounded-lg transition cursor-pointer ${activeTab === "expense"
+                                                    ? "bg-primary-30 shadow text-gray-50"
+                                                    : "text-gray-20"
+                                                    }`}
+                                            >
+                                                รายจ่าย
+                                            </button>
+                                        </div>
+                                        <div className="w-full h-80 relative">
+                                            <AnalyticsChart
+                                                chartData={chartData}
+                                                totalIncome={monthlySummary?.totalIncome ?? 0}
+                                                totalExpense={monthlySummary?.totalExpense ?? 0}
+                                                activeTab={activeTab}
+                                            />
+                                        </div>
+                                    </div>
+                                </>
+                            )}
                     </div>
                 </div>
                 <div className="flex lg:w-3/8 w-full h-full items-start justify-center">
                     <AnalyticsTable
                         chartData={chartData}
-                        total={total}
+                        totalIncome={monthlySummary?.totalIncome ?? 0}
+                        totalExpense={monthlySummary?.totalExpense ?? 0}
                         hasData={hasData}
+                        activeTab={activeTab}
                     />
                 </div>
             </div>

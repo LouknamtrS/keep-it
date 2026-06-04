@@ -1,5 +1,6 @@
 import axios from "axios";
 import appConfig from "../config/config";
+import { api } from "./axios";
 
 export const categoryAPI = {
     async createCategory(data: {
@@ -16,8 +17,15 @@ export const categoryAPI = {
 
     async getAll() {
         return axios.get(
-        `${appConfig.backendBaseUrl}:${appConfig.backendPort.category}/all`,
-        { withCredentials: true }
-        )
+            `${appConfig.backendBaseUrl}:${appConfig.backendPort.category}/all`,
+            { withCredentials: true }
+        );
+    },
+
+    async getAllCategories() {
+        return api.get(
+            `/category/all`,
+            { withCredentials: true }
+        );
     }
 };

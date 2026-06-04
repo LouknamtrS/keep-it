@@ -13,13 +13,15 @@ type ChartItem = {
 
 type Props = {
     chartData: ChartItem[];
-    total: number;
+    totalIncome: number;
+    totalExpense: number;
     activeTab: "income" | "expense";
 };
 
 export default function AnalyticsChart({
     chartData,
-    total,
+    totalIncome,
+    totalExpense,
     activeTab,
 }: Props) {
     const COLORS =
@@ -48,7 +50,7 @@ export default function AnalyticsChart({
                         cy="50%"
                         outerRadius="70%"
                         innerRadius="45%"
-                        labelLine={({ index }) => index < 5}
+                        labelLine={false}
                         label={({ name, percent, index }) =>
                             index < 5 ? `${name} ${((percent ?? 0) * 100).toFixed(0)}%` : ""
                         }
@@ -70,7 +72,7 @@ export default function AnalyticsChart({
                     รวม
                 </span>
                 <span className="text-2xl font-bold">
-                    {total.toLocaleString()}
+                    {activeTab === "income" ? totalIncome.toLocaleString() : totalExpense.toLocaleString()}
                 </span>
                 <span className="text-sm text-gray-500">
                     บาท
