@@ -42,7 +42,7 @@ export default function AnalyticsTable({
 
                         return (
                             <tr
-                                key={item.name}
+                                key={`${item.categoryId}-${item.name}`}
                                 className="border-b border-gray-10"
                             >
                                 <td className="p-2 text-left">

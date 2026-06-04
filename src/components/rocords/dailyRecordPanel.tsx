@@ -17,33 +17,28 @@ export default function DailyRecordPanel({
 
     const dayRecords = useMemo(() => {
         return records.filter((record) => {
-            const recordDate = record.date;
-            const matchDate = recordDate === dateKey;
-            const matchType = typeFilter === "ทั้งหมด"
+            const matchType =
+                typeFilter === "ทั้งหมด"
                     ? true
                     : typeFilter === "รายรับ"
                     ? record.type === "income"
                     : record.type === "expense";
-            const matchCategory = categoryFilter === "หมวดหมู่"
-                    ? true
-                    : record.category.name ===
-                      categoryFilter;
 
-            return (
-                matchDate &&
-                matchType &&
-                matchCategory
-            );
+            const matchCategory =
+                categoryFilter === "หมวดหมู่"
+                    ? true
+                    : record.category?.name === categoryFilter;
+
+            return matchType && matchCategory;
         });
-    }, [records, dateKey, typeFilter, categoryFilter,
-    ]);
+    }, [records, typeFilter, categoryFilter]);
 
     const categories = [
         "หมวดหมู่",
         ...new Set(
             records.map(
                 (record) =>
-                    record.category.name
+                    record.category?.name
             )
         ),
     ];
@@ -70,7 +65,7 @@ export default function DailyRecordPanel({
         }));
 
     return (
-        <div className="bg-white rounded-2xl p-4">
+        <div className="bg-white rounded-2xl p-4 lg:w-3/5">
             {/* Header */}
             <div className="mb-8 flex flex-col gap-2">
                 <p className="text-sm text-gray-30">
@@ -101,7 +96,7 @@ export default function DailyRecordPanel({
             </div>
 
             {/* Records */}
-            <div className="flex flex-col gap-2 w-full lg:max-w-56 max-h-64 lg:max-h-125 overflow-y-scroll">
+            <div className="flex flex-col gap-2 w-full max-h-64 lg:max-h-125 overflow-y-scroll">
                 {dayRecords.length === 0 ? (
                     <p className="text-gray-400 text-sm lg:text-base">
                         ไม่มีรายการ
@@ -111,15 +106,15 @@ export default function DailyRecordPanel({
                         (record) => (
                             <div
                                 key={record.id}
-                                className={`flex justify-between items-center rounded-xl p-3 w-68 lg:w-56 ${record.type == "income" ? "bg-success-10" : "bg-error-10"}`}
+                                className={`flex justify-between items-center rounded-xl p-3 w-full ${record.type == "income" ? "bg-success-10" : "bg-error-10"}`}
                             >
                                 <div>
                                     <div className="flex flex-row gap-2 items-center">
                                         <p className="font-medium text-sm">
-                                            {record.category.iconName}
+                                            {record.category?.iconName}
                                         </p>
                                         <p className="text-sm text-left font-medium max-w-24 w-24 wrap-break-word line-clamp-2 text-ellipsis">
-                                            {record.category.name}
+                                            {record.category?.name}
                                         </p>
                                     </div>
                                     <p className="text-xs text-gray-40 text-left max-w-24 w-24 wrap-break-word line-clamp-2 text-ellipsis">

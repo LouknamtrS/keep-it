@@ -6,6 +6,7 @@ export type SummaryPerCategory = {
 };
 
 export type AnalyticsData = {
+    categories: any;
     userId: string;
     totalIncome: number;
     totalExpense: number;

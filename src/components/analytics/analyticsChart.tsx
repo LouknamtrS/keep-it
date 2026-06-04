@@ -7,6 +7,7 @@ import {
 } from "recharts";
 
 type ChartItem = {
+    categoryId: number;
     name: string;
     value: number;
 };
@@ -48,7 +49,7 @@ export default function AnalyticsChart({
                         cy="50%"
                         outerRadius="70%"
                         innerRadius="45%"
-                        labelLine={({ index }) => index < 5}
+                        labelLine={false}
                         label={({ name, percent, index }) =>
                             index < 5 ? `${name} ${((percent ?? 0) * 100).toFixed(0)}%` : ""
                         }
