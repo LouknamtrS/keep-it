@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import type { Category } from "../../types/category";
-import type {RecordFormData,RecordErrors, Record} from "../../types/records";
+import type {RecordFormData,RecordErrors} from "../../types/records";
 import PrimaryButton from "../primaryButton";
 import CategoryForm from "../category/categoryForm";
 import RecordForm from "./recordForm";
@@ -68,7 +68,6 @@ export default function AddRecordModal({
                     <CategoryForm
                         onBack={() => setView("record")}
                         onCreateCategory={(newCategory) => {
-                            setCategories(prev => [...prev, newCategory]);
                             onAddCategory(newCategory);
                             setFormData(prev => ({
                                 ...prev,

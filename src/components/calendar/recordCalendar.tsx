@@ -1,6 +1,5 @@
 import { useMemo, useState } from "react";
 import type { Record } from "../../types/records";
-import { categoriesMock } from "../../mocks/category";
 import type { Category } from "../../types/category";
 import AddRecordModal from "../rocords/addRecordModal";
 import PrimaryButtonSmall from "../primaryButtonSmall";
@@ -32,7 +31,7 @@ export default function RecordCalendar({
 }: Props) {
     const navigate = useNavigate();
     const [isAddRecordOpen, setIsAddRecordOpen] = useState(false);
-    const [categories, setCategories] = useState(categoriesMock);
+    const [, setCategories] = useState<Category[]>([]);
     const year = currentDate.getFullYear();
     const month = currentDate.getMonth();
     const firstDay = new Date(year, month, 1);
@@ -44,7 +43,7 @@ export default function RecordCalendar({
     const handleAddCategory = (
         newCategory: Category
     ) => {
-        setCategories(prev => [
+        setCategories((prev: any) => [
             ...prev,
             newCategory,
         ]);

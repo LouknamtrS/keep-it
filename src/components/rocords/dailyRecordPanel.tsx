@@ -1,5 +1,5 @@
 import { useMemo, useState } from "react";
-import type { EnrichedRecord, Record } from "../../types/records";
+import type { EnrichedRecord } from "../../types/records";
 import CustomDropdown from "../calendar/customDropdown";
 
 type Props = {
@@ -13,7 +13,6 @@ export default function DailyRecordPanel({
 }: Props) {
     const [typeFilter, setTypeFilter] = useState("ทั้งหมด");
     const [categoryFilter, setCategoryFilter] =useState("หมวดหมู่");
-    const dateKey = `${selectedDate.getFullYear()}-${String(selectedDate.getMonth() + 1).padStart(2, "0")}-${String(selectedDate.getDate()).padStart(2, "0")}`;
 
     const dayRecords = useMemo(() => {
         return records.filter((record) => {

@@ -14,7 +14,7 @@ export default function ForgotPasswordEmailPage() {
   const [formData, setFormData] = useState<FormData>({ email: "" });
   const [error, setError] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [email, setEmail] = useState("");
+  const [,setEmail] = useState("");
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({ email: e.target.value });
@@ -36,8 +36,7 @@ export default function ForgotPasswordEmailPage() {
     try {
       setIsSubmitting(true);
       // await new Promise((resolve) => setTimeout(resolve, 1000));
-      const response = await authAPI.forgotPassword?.(formData.email);
-      console.log("Forgot password response:", response);
+      await authAPI.forgotPassword?.(formData.email);
       
       await showSuccess(
         "ส่งอีเมลสำเร็จ",
