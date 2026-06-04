@@ -17,6 +17,7 @@ type Props = {
     onSelectedDateChange:(
         date: Date
     ) => void;
+    onRecordAdded?: () => void;
 };
 
 export default function RecordCalendar({
@@ -24,7 +25,8 @@ export default function RecordCalendar({
     currentDate,
     onDateChange,
     selectedDate,
-    onSelectedDateChange
+    onSelectedDateChange,
+    onRecordAdded
 }: Props) {
     const navigate = useNavigate();
     const [isAddRecordOpen, setIsAddRecordOpen] = useState(false);
@@ -139,6 +141,7 @@ export default function RecordCalendar({
                         setIsAddRecordOpen(false)
                     }
                     onAddCategory={handleAddCategory}
+                    onSuccess={onRecordAdded}
                 />
             </div>
             

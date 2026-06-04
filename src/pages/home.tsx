@@ -1,14 +1,10 @@
-import { useMemo, useState } from "react";
+import { useMemo, useState, useCallback, useEffect } from "react";
 import SummaryCard from "../components/analytics/summaryCard";
 import Navbar from "../components/navbar";
-import { mockRecords } from "../mocks/records";
 import RecordCalendar from "../components/calendar/recordCalendar";
 import DailyRecordPanel from "../components/rocords/dailyRecordPanel";
-import TopCategory from "../components/rocords/topCategory";
-import { useEffect } from "react"
 import { recordAPI } from "../api/recordAPI"
-import type { DailyRecordResponse, Record } from "../types/records"
-import { analyticAPI } from "../api/analyticsAPI";
+import type { EnrichedRecord, Record } from "../types/records"
 import type { Category } from "../types/category";
 import { categoryAPI } from "../api/categoryAPI";
 
@@ -16,105 +12,35 @@ export default function Home() {
     const [currentDate, setCurrentDate] = useState(new Date());
     const [selectedDate, setSelectedDate] = useState(new Date());
     const [records, setRecords] = useState<Record[]>([])
-    const [income, setIncome] = useState(0);
-    const [expense, setExpense] = useState(0);
-    const [dailyRecords, setDailyRecords] = useState<DailyRecordResponse[]>([]);
     const [categories, setCategories] = useState<Category[]>([]);
-    const year = currentDate.getFullYear();
-    const month = currentDate.getMonth();
 
-
-    // const topCategories = useMemo(() => {
-    //     const categoryMap = new Map();
-
-    //     monthlyRecords.forEach((record) => {
-    //         const categoryId = record.category.id;
-
-    //         const current = categoryMap.get(categoryId) || {
-    //             id: categoryId,
-    //             name: record.category.name,
-    //             icon: record.category.iconName,
-    //             type: record.category.type,
-    //             total: 0,
-    //             count: 0,
-    //         };
-
-    //         current.total += record.amount;
-    //         current.count += 1;
-    //         categoryMap.set(categoryId, current);
-    //     });
-
-    //     return Array.from(categoryMap.values()).sort((a, b) => b.total - a.total);
-    // }, [monthlyRecords]);
-
-    useEffect(() => {
-        const fetchRecords = async () => {
-            try {
-                const res = await recordAPI.getAll()
-                setRecords(res.data.data)
-            } catch (err) {
-                console.error("failed to load records", err)
-            }
+    const fetchRecords = useCallback(async () => {
+        try {
+            const res = await recordAPI.getAll()
+            setRecords(res.data.data)
+        } catch (err) {
+            console.error("failed to load records", err)
         }
+    }, []);
 
-        fetchRecords()
-    }, [])
-
-    useEffect(() => {
-        const fetchMonthlySummary = async () => {
-            try {
-                const month = currentDate.getMonth() + 1;
-                const year = currentDate.getFullYear();
-
-                const res =
-                    await analyticAPI.getMonthlySummary(
-                        month,
-                        year
-                    );
-
-                setIncome(res.data.data.totalIncome);
-                setExpense(res.data.data.totalExpense);
-
-            } catch (err) {
-                console.error(err);
-            }
-        };
-
-        fetchMonthlySummary();
-    }, [currentDate]);
+    const fetchCategories = useCallback(async () => {
+        try {
+            const res = await categoryAPI.getAll()
+            setCategories(res.data.data)
+        } catch (err) {
+            console.error("failed to load categories", err)
+        }
+    }, []);
 
     useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const date =
-                    `${selectedDate.getFullYear()}-${String(
-                        selectedDate.getMonth() + 1
-                    ).padStart(2, "0")}-${String(
-                        selectedDate.getDate()
-                    ).padStart(2, "0")}`;
-                const [
-                    dailyRes,
-                    categoryRes
-                ] = await Promise.all([
-                    analyticAPI.getDailyRecords(date),
-                    categoryAPI.getAll()
-                ]);
+        fetchRecords();
+        fetchCategories();
+    }, [fetchRecords, fetchCategories]);
 
-                setDailyRecords(
-                    dailyRes.data.data.records
-                );
+    const handleRecordAdded = () => {
+        fetchRecords();
+    };
 
-                setCategories(
-                    categoryRes.data.data
-                );
-
-            } catch (err) {
-                console.error(err);
-            }
-        };
-
-        fetchData();
-    }, [selectedDate]);
     const categoryMap = useMemo(() => {
         return new Map(
             categories.map(category => [
@@ -123,13 +49,40 @@ export default function Home() {
             ])
         );
     }, [categories]);
-    const enrichedRecords = useMemo(() => {
-        return dailyRecords.map(record => ({
-            ...record,
-            category: categoryMap.get(record.categoryId)
-        }));
-    }, [dailyRecords, categoryMap]);
 
+    const { income, expense } = useMemo(() => {
+        const month = currentDate.getMonth();
+        const year = currentDate.getFullYear();
+        
+        return records.reduce((acc, record) => {
+            const date = new Date(record.date);
+            if (date.getMonth() === month && date.getFullYear() === year) {
+                if (record.type === "income") acc.income += record.amount;
+                else acc.expense += record.amount;
+            }
+            return acc;
+        }, { income: 0, expense: 0 });
+    }, [records, currentDate]);
+
+    const enrichedRecords = useMemo(() => {
+        const selYear = selectedDate.getFullYear();
+        const selMonth = selectedDate.getMonth();
+        const selDay = selectedDate.getDate();
+
+        return records
+            .filter(record => {
+                const date = new Date(record.date);
+                return date.getFullYear() === selYear &&
+                    date.getMonth() === selMonth &&
+                    date.getDate() === selDay;
+            })
+            .map(record => ({
+                ...record,
+                category: record.category || categoryMap.get(Number((record as any).categoryId)),
+                note: record.description || (record as any).note,
+                categoryId: (record as any).categoryId || record.category?.id
+            })) as unknown as EnrichedRecord[];
+    }, [records, selectedDate, categoryMap]);
 
     return (
         <>
@@ -156,13 +109,9 @@ export default function Home() {
                         onSelectedDateChange={
                             setSelectedDate
                         }
+                        onRecordAdded={handleRecordAdded}
                     />
                 </div>
-                {/* <div className="order-3 lg:order-3 w-full lg:w-1/4 flex justify-center">
-                    <TopCategory
-                        categories={topCategories}
-                    />
-                </div> */}
             </div>
         </>
     );

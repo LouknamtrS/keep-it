@@ -1,9 +1,9 @@
 import { useMemo, useState } from "react";
-import type { Record } from "../../types/records";
+import type { EnrichedRecord, Record } from "../../types/records";
 import CustomDropdown from "../calendar/customDropdown";
 
 type Props = {
-    records: Record[];
+    records: EnrichedRecord[];
     selectedDate: Date;
 };
 
@@ -35,14 +35,14 @@ export default function DailyRecordPanel({
 
     const categories = [
         "หมวดหมู่",
-        ...new Set(
-            records.map(
-                (record) =>
-                    record.category?.name
+        ...Array.from(
+            new Set(
+                records
+                    .map(r => r.category?.name)
+                    .filter((name): name is string => !!name)
             )
-        ),
+        )
     ];
-
     const typeOptions = [
         {
             label: "ทั้งหมด",
@@ -58,11 +58,10 @@ export default function DailyRecordPanel({
         },
     ];
 
-    const categoryOptions =
-        categories.map((category) => ({
-            label: category,
-            value: category,
-        }));
+    const categoryOptions = categories.map((category) => ({
+        label: category,
+        value: category,
+    }));
 
     return (
         <div className="bg-white rounded-2xl p-4 lg:w-3/5">
@@ -110,7 +109,7 @@ export default function DailyRecordPanel({
                             >
                                 <div>
                                     <div className="flex flex-row gap-2 items-center">
-                                        <p className="font-medium text-sm">
+                                        <p className="font-medium text-xl">
                                             {record.category?.iconName}
                                         </p>
                                         <p className="text-sm text-left font-medium max-w-24 w-24 wrap-break-word line-clamp-2 text-ellipsis">
@@ -118,7 +117,7 @@ export default function DailyRecordPanel({
                                         </p>
                                     </div>
                                     <p className="text-xs text-gray-40 text-left max-w-24 w-24 wrap-break-word line-clamp-2 text-ellipsis">
-                                        {record.description}
+                                        {record.note}
                                     </p>
                                 </div>
                                 <span

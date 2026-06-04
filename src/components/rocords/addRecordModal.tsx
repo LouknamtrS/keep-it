@@ -12,12 +12,14 @@ type Props = {
     isOpen: boolean;
     onClose: () => void;
     onAddCategory: (category: Category) => void;
+    onSuccess?: () => void;
 };
 
 export default function AddRecordModal({
     isOpen,
     onClose,
     onAddCategory,
+    onSuccess,
 }: Props) {
    
     const [view, setView] = useState<"record" | "category">("record");
@@ -119,6 +121,9 @@ export default function AddRecordModal({
                 });
             }
 
+            if (onSuccess) {
+                onSuccess();
+            }
             handleClose();
         } catch (error) {
             console.error(error);

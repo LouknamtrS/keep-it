@@ -31,3 +31,14 @@ export type DailyRecordResponse = {
     note: string;
     type: "income" | "expense";
 }
+
+export type EnrichedRecord = {
+    id: number;
+    categoryId: number;
+    amount: number;
+    note: string;
+    type: "income" | "expense";
+    date: string;
+    description: string;
+    category?: Category;
+};
