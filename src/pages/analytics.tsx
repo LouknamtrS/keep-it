@@ -1,19 +1,23 @@
 import Navbar from "../components/navbar";
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
 import type { AnalyticsResponse } from "../types/analytics";
-import { analyticsApi } from "../api/analyticsAPI";
+import { analyticAPI } from "../api/analyticsAPI";
 import { getNextMonth, getPrevMonth} from "../utils/date";
 import AnalyticsHeader from "../components/analytics/analyticsHeader";
 import SummaryCards from "../components/analytics/summaryCard";
 import AnalyticsChart from "../components/analytics/analyticsChart";
 import AnalyticsTable from "../components/analytics/analyticsTable";
+import type { Category } from "../types/category";
+import { categoryAPI } from "../api/categoryAPI";
 
 export default function Analytics() {
 
     const [activeTab, setActiveTab] = useState<"income" | "expense">("income");
     const [analytics, setAnalytics] = useState<AnalyticsResponse | null>(null);
+    const [categories, setCategories] = useState<Category[]>([]);
     const [searchParams] = useSearchParams();
+    
 
     const [month, setMonth] = useState(
         Number(searchParams.get("month")) ||
@@ -25,22 +29,51 @@ export default function Analytics() {
         new Date().getFullYear()
     );
 
-    const fetchAnalytics = async () => {
-        try {
-            const response =
-                await analyticsApi.getSummary(
-                    "1",
-                    month,
-                    year
+    useEffect(() => {
+        const fetchAnalytics = async () => {
+            try {
+                const res =
+                    await analyticAPI.getMonthlySummary(
+                        month,
+                        year
+                    );
+
+                setAnalytics(res.data);
+            } catch (err) {
+                console.error(err);
+                setAnalytics(null);
+            }
+        };
+
+        fetchAnalytics();
+    }, [month, year]);
+
+    useEffect(() => {
+        const fetchCategories = async () => {
+            try {
+                const res =
+                    await categoryAPI.getAll();
+
+                setCategories(
+                    res.data.data
                 );
+            } catch (err) {
+                console.error(err);
+            }
+        };
 
-            setAnalytics(response.data ?? null);
+        fetchCategories();
+    }, []);
 
-        } catch (error) {
-            console.error(error);
-            setAnalytics(null);
-        }
-    };
+    const categoryMap = useMemo(() => {
+        return new Map(
+            categories.map(category => [
+                Number(category.id),
+                category
+            ])
+        );
+    }, [categories]);
+
     const handlePrevMonth = () => {
         const result = getPrevMonth(
             month,
@@ -62,24 +95,41 @@ export default function Analytics() {
     };
 
     const chartData = useMemo(() => {
-    return (
-        analytics?.data.summaryPerCategory
-        .filter(item => item.type === activeTab)
-        .map(item => ({
-            name: item.category,
-            value: item.amount,
-        })).sort((a, b) => b.value - a.value) ?? []
-    );
-    }, [analytics, activeTab]);
+        if (!analytics) return [];
+
+        return analytics.data.categories
+            .filter((item: { type: string; }) =>
+                item.type === activeTab
+            )
+            .map((item: { categoryId: number; amount: any; ratio: any; }) => {
+                const category = categoryMap.get(Number(item.categoryId));
+
+            return {
+                categoryId: item.categoryId,
+                name: category?.name ?? "Unknown",
+                icon: category?.iconName ?? "❓",
+                value: item.amount,
+                ratio: item.ratio,
+            };
+            })
+            .sort(
+                (a: { value: number; }, b: { value: number; }) =>
+                    b.value - a.value
+            );
+    }, [
+        analytics,
+        activeTab,
+        categoryMap
+    ]);
 
     const total = useMemo(
     () =>
         chartData.reduce(
-        (sum, item) => sum + item.value,0),
+        (sum: any, item: { value: any; }) => sum + item.value,0),
         [chartData]
     );
 
-    const hasData = !!analytics && analytics.data.summaryPerCategory.length > 0;
+    const hasData = !!analytics && analytics.data.categories.length > 0;
 
     return (
         <>

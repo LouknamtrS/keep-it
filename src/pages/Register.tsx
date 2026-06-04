@@ -2,6 +2,7 @@ import { authAPI } from '../api/authAPI';
 import logo from '../assets/keep_it_logo.png';
 import PrimaryButton from '../components/primaryButton';
 import { useState } from 'react';
+import { showError, showSuccess } from '../utils/alert';
 
 type FormData = {
   username: string;
@@ -90,14 +91,17 @@ export default function RegisterPage() {
       setIsSubmitting(true);
 
       //console.log('Register success:', formData);
-      const response = await authAPI.register(formData);
-      alert(response.message || 'Registration successful!');
-
+      showSuccess(
+          "สร้างบัญชีสำเร็จ",
+          "คุณสามารถเข้าสู่ระบบได้แล้ว"
+      );
       setFormData(initialForm);
 
     } catch (error) {
-      alert(error instanceof Error ? error.message : 'An error occurred during registration');
-      console.error(error);
+        showError(
+          "สร้างบัญชีไม่สำเร็จ",
+          "กรุณาลองใหม่อีกครั้ง"
+        );
     } finally {
       setIsSubmitting(false);
     }

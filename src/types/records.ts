@@ -15,6 +15,7 @@ export type RecordErrors = {
 };
 
 export type Record = {
+    categoryId(categoryId: any): Category | undefined;
     date: string | number | Date;
     id: string;
     type: "income" | "expense";
@@ -22,3 +23,11 @@ export type Record = {
     description: string;
     category: Category;
 };
+
+export type DailyRecordResponse = {
+    id: number;
+    categoryId: number;
+    amount: number;
+    note: string;
+    type: "income" | "expense";
+}

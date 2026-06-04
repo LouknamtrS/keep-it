@@ -1,35 +1,33 @@
-import { analyticsMock } from "../mocks/analytics";
+import axios from "axios";
+import appConfig from "../config/config";
 
-export const analyticsApi = {
-    getSummary: async (
-        userId: string,
+export const analyticAPI = {
+    async getMonthlySummary(
         month: number,
         year: number
-    ) => {
-
-        await new Promise(
-            resolve =>
-                setTimeout(resolve, 500)
+    ) {
+        return axios.get(
+            `${appConfig.backendBaseUrl}:${appConfig.backendPort.analytic}/monthly-summary/${month}/${year}`,
+            { withCredentials: true }
         );
-
-        const key =
-            `${year}-${String(month).padStart(2, "0")}`;
-
-        const data =
-            analyticsMock[key];
-
-        return {
-            data: data ?? null,
-        };
-        // return axios.get(
-        //     "/analytics",
-        //     {
-        //         params: {
-        //             userId,
-        //             month,
-        //             year,
-        //         },
-        //     }
-        // );
     },
+
+    async getDailyRecords(
+        date: string
+    ) {
+        return axios.get(
+            `${appConfig.backendBaseUrl}:${appConfig.backendPort.analytic}/daily-records/${date}`,
+            { withCredentials: true }
+        );
+    },
+
+    async getCalendar(
+        month: number,
+        year: number
+    ) {
+        return axios.get(
+            `${appConfig.backendBaseUrl}:${appConfig.backendPort.analytic}/calendar/${month}/${year}`,
+            { withCredentials: true }
+        );
+    }
 };

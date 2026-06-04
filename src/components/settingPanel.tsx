@@ -1,6 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { useState} from "react";
 import CategoryModal from "./category/categoryModal";
+import { authAPI } from "../api/authAPI";
 
 interface SettingItemProps {
   icon: string;
@@ -27,11 +28,20 @@ export default function SettingPanel() {
   const navigate = useNavigate();
   const [isCategoryOpen, setIsCategoryOpen] = useState(false);
 
+  const handleLogout = async () => {
+    try {
+        await authAPI.logout();
+        navigate("/login"); // หรือหน้า home
+    } catch (err) {
+        console.error("logout failed", err);
+    }
+  };
+
   const settings = [
     { icon: "bi-grid", label: "หมวดหมู่", onClick: () => setIsCategoryOpen(true) },
     { icon: "bi-person", label: "บัญชีผู้ใช้", onClick: () => navigate("/account") },
     { icon: "bi-shield-lock", label: "ความปลอดภัย", onClick: () => navigate("/security") },
-    { icon: "bi-box-arrow-right", label: "ออกจากระบบ", onClick: () => console.log("Logout clicked"), variant: "danger" as const },
+    { icon: "bi-box-arrow-right", label: "ออกจากระบบ", onClick: handleLogout, variant: "danger" as const },
   ];
 
   return (
