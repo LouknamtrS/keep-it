@@ -2,6 +2,7 @@ import axios from "axios";
 import appConfig from "../config/config";
 import { firebaseClientAuth } from "../config/firebaseClientConfig";
 import { createUserWithEmailAndPassword, verifyPasswordResetCode, signInWithEmailAndPassword, signOut, sendPasswordResetEmail, confirmPasswordReset, deleteUser } from "firebase/auth";
+import { getAuth, updatePassword } from "firebase/auth";
 
 interface AuthModel {
       email: string;
@@ -29,6 +30,7 @@ export interface AuthAPI {
       logout: () => Promise<void>;
       forgotPassword: (email: string) => Promise<void>;
       resetPassword: (newPassword: string) => Promise<AuthResponse>;
+      changePassword: (newPassword: string) => Promise<void>;
 }
 
 export const authAPI: AuthAPI = {
@@ -63,7 +65,7 @@ export const authAPI: AuthAPI = {
                   if (!createUserResponse.data.ok || createUserResponse.status !== 201) {
                         throw new Error(createUserResponse.data.message || 'Registration failed')
                   }
-                  return createUserResponse.data;                  
+                  return createUserResponse.data;
             } catch (error) {
                   const firebaseUser = firebaseClientAuth.currentUser;
                   if (firebaseUser) {
@@ -80,7 +82,7 @@ export const authAPI: AuthAPI = {
                         data.email,
                         data.password
                   );
-                  
+
                   const loginResponse = await axios.post(
                         `${appConfig.backendBaseUrl}:${appConfig.backendPort.auth}/auth/login`,
                         {},
@@ -147,6 +149,21 @@ export const authAPI: AuthAPI = {
                   return { ok: true, message: 'Password reset successfully' };
             } catch (error) {
                   console.error('Error occurred while resetting password:', (error as any).message);
+                  throw error;
+            }
+      },
+      async changePassword(newPassword: string) {
+            try {
+                  const auth = getAuth();
+                  const user = auth.currentUser;
+
+                  if (!user) {
+                        throw new Error('No authenticated user');
+                  }
+
+                  await updatePassword(user, newPassword);
+            } catch (error) {
+                  console.error('Error occurred while changing password:', (error as any).message);
                   throw error;
             }
       }
