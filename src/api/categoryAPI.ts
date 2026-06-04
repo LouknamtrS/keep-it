@@ -15,7 +15,7 @@ export const categoryAPI = {
 
     async getAll() {
         return api.get(
-            `/category/all`,
+            `/category/user/all`,
             { withCredentials: true }
         )
     }
