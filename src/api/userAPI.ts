@@ -22,4 +22,14 @@ export const userAPI = {
             }
         );
     },
+
+    async deleteAccount(userId: string) {
+        return api.delete(
+            `/user/delete/${userId}`,
+            {
+                withCredentials: true,
+            }
+        );
+    }
+
 };

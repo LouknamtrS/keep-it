@@ -1,17 +1,38 @@
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Navbar from "../components/navbar";
 import DangerButton from "../components/dangerButton";
 import { showConfirmDelete, showError, showSuccess } from "../utils/alert";
+import { userAPI } from "../api/userAPI";
+import { getAuth, onAuthStateChanged } from "firebase/auth";
 
 export default function DeleteAccount() {
     const navigate = useNavigate();
+
+    const [userId, setUserId] = useState("");
+
+    useEffect(() => {
+        const auth = getAuth();
+
+        const unsubscribe = onAuthStateChanged(auth, (user) => {
+            if (user?.uid) {
+                setUserId(user.uid);
+            } else {
+                setUserId("");
+                console.log("ยังไม่ได้ login หรือไม่มี email");
+            }
+        });
+
+        return () => unsubscribe();
+    }, []);
+
     const handleDeleteAccount = async () => {
         const result = await showConfirmDelete();
 
         if (!result.isConfirmed) return;
 
         try {
-            // await userAPI.deleteAccount();
+            await userAPI.deleteAccount(userId);
             showSuccess(
                 "ลบบัญชีสำเร็จ",
                 "บัญชีของคุณถูกลบเรียบร้อยแล้ว"
@@ -31,7 +52,7 @@ export default function DeleteAccount() {
             <div className="flex w-screen h-screen items-start justify-center mt-12">
                 <div className="flex flex-col gap-6 pt-10 px-6 lg:px-12 pb-10 bg-white rounded-2xl shadow-none lg:shadow-sm lg:border lg:border-gray-100 border-none w-full max-w-xl mx-auto mt-10">
                     <div className="flex flex-row items-center w-full relative">
-                        <button 
+                        <button
                             onClick={() => navigate("/security")}
                             className="flex items-center justify-center gap-2 text-primary-500 hover:text-primary-600 cursor-pointer absolute left-0 z-10"
                         >
@@ -49,7 +70,7 @@ export default function DeleteAccount() {
                         </div>
 
                         <DangerButton onClick={handleDeleteAccount}>
-                           ดำเนินการต่อ
+                            ดำเนินการต่อ
                         </DangerButton>
                     </div>
                 </div>
