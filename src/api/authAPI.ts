@@ -132,7 +132,7 @@ export const authAPI: AuthAPI = {
       },
       async forgotPassword(email: string) {
             try {
-                  await sendPasswordResetEmail(firebaseClientAuth, email);
+                  const resetpasswordResponse = await sendPasswordResetEmail(firebaseClientAuth, email);
             } catch (error) {
                   console.error('Error occurred while requesting password reset:', (error as any).message);
                   throw error;
@@ -146,7 +146,7 @@ export const authAPI: AuthAPI = {
                   if (!email) {
                         throw new Error('Invalid or expired password reset code');
                   }
-                  await confirmPasswordReset(firebaseClientAuth, oobCode, newPassword);
+                  const resetPasswordResponse = await confirmPasswordReset(firebaseClientAuth, oobCode, newPassword);
                   return { ok: true, message: 'Password reset successfully' };
             } catch (error) {
                   console.error('Error occurred while resetting password:', (error as any).message);

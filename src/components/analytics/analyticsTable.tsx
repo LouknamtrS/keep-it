@@ -1,7 +1,6 @@
 type ChartItem = {
     name: string;
     value: number;
-    categoryId: number;
 };
 
 type Props = {

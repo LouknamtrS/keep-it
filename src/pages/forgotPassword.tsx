@@ -75,7 +75,7 @@ export default function ResetPasswordPage() {
 
             await new Promise(resolve => setTimeout(resolve, 1000));
             
-            await authAPI.resetPassword(formData.confirmPassword);
+            const response = await authAPI.resetPassword(formData.confirmPassword);
 
             await showSuccess(
             "เปลี่ยนรหัสผ่านสำเร็จ",
