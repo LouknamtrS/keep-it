@@ -31,6 +31,7 @@ export interface AuthAPI {
       forgotPassword: (email: string) => Promise<void>;
       resetPassword: (newPassword: string) => Promise<AuthResponse>;
       changePassword: (newPassword: string) => Promise<void>;
+      deleteAccount: () => Promise<void>;
 }
 
 export const authAPI: AuthAPI = {
@@ -164,6 +165,26 @@ export const authAPI: AuthAPI = {
                   await updatePassword(user, newPassword);
             } catch (error) {
                   console.error('Error occurred while changing password:', (error as any).message);
+                  throw error;
+            }
+      },
+      async deleteAccount() {
+            try {
+                  const auth = getAuth();
+                  const user = auth.currentUser;
+
+                  if (!user) {
+                        throw new Error('No authenticated user');
+                  }
+
+                  await axios.delete(
+                        `${appConfig.backendBaseUrl}:${appConfig.backendPort.auth}/auth/delete/account`,
+                        {
+                              withCredentials: true
+                        }
+                  );
+            } catch (error) {
+                  console.error('Error occurred while deleting account:', (error as any).message);
                   throw error;
             }
       }
