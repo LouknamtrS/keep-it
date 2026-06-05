@@ -48,7 +48,7 @@ export default function CategoryForm({
                 iconName: icon,
             });
 
-            onCreateCategory(res.data.data); // 👈 backend response
+            onCreateCategory(res.data.data);
 
         } catch (error) {
             console.error(error);
