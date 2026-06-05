@@ -14,7 +14,7 @@ export default function ForgotPasswordEmailPage() {
   const [formData, setFormData] = useState<FormData>({ email: "" });
   const [error, setError] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [email, setEmail] = useState("");
+  const [, setEmail] = useState("");
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({ email: e.target.value });

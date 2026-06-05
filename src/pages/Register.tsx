@@ -90,7 +90,7 @@ export default function RegisterPage() {
     try {
       setIsSubmitting(true);
 
-      const response = await authAPI.register(formData);
+      await authAPI.register(formData);
       showSuccess(
           "สร้างบัญชีสำเร็จ",
           "คุณสามารถเข้าสู่ระบบได้แล้ว"

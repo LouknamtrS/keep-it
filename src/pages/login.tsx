@@ -71,7 +71,7 @@ export default function LoginPage() {
 
     try {
       setIsSubmitting(true);
-      const response = await authAPI.login(formData);
+      await authAPI.login(formData);
       setFormData(initialForm);
       navigate("/");
 
